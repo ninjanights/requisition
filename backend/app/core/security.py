@@ -1,26 +1,29 @@
 from datetime import datetime, timedelta, timezone
-from jose import  JWTError, jwt
+from jose import JWTError, jwt
 from pwdlib import PasswordHash
 
 from app.core.config import settings
 
 #  protect apis
-from fastapi import Depends, HTTPException, status
-from fastapi.security import HTTPAuthorizationCredentials, HTTPBearer
+from fastapi import (
+    Cookie,
+    Depends,
+    HTTPException,
+    status,
+)
 from sqlalchemy.orm import Session
 from app.db.database import get_db
 from app.db.models import User
 
-bearer_scheme = HTTPBearer()
-
-
-
 password_hash = PasswordHash.recommended()
 
+
+# - hash_password
 def hash_password(password: str) -> str:
     return password_hash.hash(password)
 
 
+# - verify_password
 def verify_password(
     plain_password: str,
     hashed_password: str,
@@ -31,6 +34,7 @@ def verify_password(
     )
 
 
+# - create_access_token
 def create_access_token(
     user_id: int,
     role: str,
@@ -52,42 +56,74 @@ def create_access_token(
     )
 
 
-# get current user - with jwt  
-def get_current_user(
-    credentials: HTTPAuthorizationCredentials = Depends(bearer_scheme),
-    db: Session = Depends(get_db),
-) -> User:
-    token = credentials.credentials
-
+# - decode_access_token
+def decode_access_token(token: str) -> dict | None:
     try:
-        payload = jwt.decode(
+        return jwt.decode(
             token,
             settings.JWT_SECRET,
             algorithms=[settings.JWT_ALGORITHM],
         )
+    except JWTError:
+        return None
 
-        user_id = payload.get("sub")
 
-        if user_id is None:
-            raise HTTPException(
-                status_code=status.HTTP_401_UNAUTHORIZED,
-                detail="Invalid authentication token",
-            )
+# get_current_admin
+def get_current_admin(
+    access_token: str | None = Cookie(
+        default=None,
+        alias="access_token",
+    ),
+    db: Session = Depends(get_db),
+) -> User:
+    """
+    Authenticate an administrator using the JWT stored
+    in the HttpOnly access_token cookie.
+    """
 
-        user_id = int(user_id)
-
-    except (JWTError, ValueError):
+    if not access_token:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="Invalid or expired authentication token",
+            detail="Authentication required",
         )
 
-    user = db.query(User).filter(User.id == user_id).first()
+    payload = decode_access_token(access_token)
 
-    if user is None:
+    if not payload:
         raise HTTPException(
             status_code=status.HTTP_401_UNAUTHORIZED,
-            detail="User no longer exists",
+            detail="Invalid or expired access token",
+        )
+
+    user_id = payload.get("sub")
+
+    if not user_id:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid access token",
+        )
+
+    try:
+        user_id = int(user_id)
+    except (TypeError, ValueError):
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid access token",
+        )
+
+    user = (
+        db.query(User)
+        .filter(
+            User.id == user_id,
+            User.role == "ADMIN",
+        )
+        .first()
+    )
+
+    if not user:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Administrator not found",
         )
 
     return user
