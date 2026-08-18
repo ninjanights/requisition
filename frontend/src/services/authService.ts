@@ -26,7 +26,7 @@ export const login = async (
   credentials: LoginRequest,
 ): Promise<LoginResponse> => {
   const response = await api.post<LoginResponse>(
-    "/api/auth/login",
+    "/auth/login",
     credentials,
   );
 console.log(response, "45");
@@ -35,12 +35,12 @@ console.log(response, "45");
 
 export const getMe = async (): Promise<MeResponse> => {
   const response = await api.get<MeResponse>(
-    "/api/auth/me",
+    "/auth/me",
   );
 console.log(response);
   return response.data;
 };
 
 export const logout = async (): Promise<void> => {
-  await api.post("/api/auth/logout");
+  await api.post("/auth/logout");
 };

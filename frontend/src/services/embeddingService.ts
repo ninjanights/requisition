@@ -8,7 +8,7 @@ export interface RebuildEmbeddingsResponse {
 
 export const rebuildAllEmbeddings = async (): Promise<RebuildEmbeddingsResponse> => {
   const response = await api.post<RebuildEmbeddingsResponse>(
-    "/api/embeddings/rebuild-all",
+    "/embeddings/rebuild-all",
   );
 
   return response.data;
@@ -16,13 +16,13 @@ export const rebuildAllEmbeddings = async (): Promise<RebuildEmbeddingsResponse>
 
 
 /**
- * POST /api/embeddings/{id}
+ * POST /embeddings/{id}
  */
 export const embedRequisition = async (
   id: number,
 ): Promise<EmbedRequisitionResponse> => {
   const response = await api.post<EmbedRequisitionResponse>(
-    `/api/embeddings/${id}`,
+    `/embeddings/${id}`,
   );
 
   return response.data;
