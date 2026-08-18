@@ -47,11 +47,16 @@ const Login = () => {
   }, [authLoading, user, navigate]);
 
   return (
-    <div className="flex min-h-screen flex-col bg-neutral-300">
-      <main className="flex flex-1 items-center justify-center bg-neutral-300 px-4 py-10 sm:px-6">
-        <div className="flex w-full max-w-md flex-col items-center text-center">
+    <div className="flex min-h-fit flex-col my-[100px] bg-neutral-300">
+      <main className="flex flex-1 items-center justify-center bg-neutral-300 px-4 py-6 sm:px-6">
+        <div className="flex w-full max-w-md -translate-y-2 flex-col items-center text-center">
+         
+           <p className="mt-3 text-neutral-600 mb-2 text-center text-[10px] font-bold
+           w-sm text-neutral-500">
+            We're running on a free tear service in Render. Please refresh after few seconds, We're coming up with a Cron Job to do that for you. - v1.0.0
+          </p>
           <h1 className="mb-3 text-3xl font-black leading-none text-neutral-900 sm:text-5xl">
-            {"{Requisitions}"}
+            {"{Requisition}"}
           </h1>
 
           <p className="mb-6 text-[10px] font-bold text-neutral-500">
@@ -112,6 +117,9 @@ const Login = () => {
 
           <div className=" h-px w-full bg-neutral-300" />
           <div className="mt-6 h-px w-full max-w-md bg-neutral-400"></div>
+
+        
+
           <p className="mt-2 text-[10px] font-bold text-neutral-500">
             Not an Admin? Come on in!
           </p>

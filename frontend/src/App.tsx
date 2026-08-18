@@ -4,7 +4,6 @@ import PublicLayout from "./layouts/PublicLayout";
 import AdminLayout from "./layouts/AdminLayout";
 import Navbar from "./components/navbar/Nav";
 import Footer from "./components/Footer";
-import { HealthProvider } from "./context/HealthContext";
 
 import ProtectedRoute from "./components/ProtectedRoutes";
 
@@ -76,9 +75,7 @@ function AppWrapper() {
 function App() {
   return (
     <BrowserRouter>
-      <HealthProvider>
-        <AppWrapper />
-      </HealthProvider>
+      <AppWrapper />
     </BrowserRouter>
   );
 }

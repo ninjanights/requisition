@@ -6,7 +6,6 @@ import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { embedRequisition } from "../../services/embeddingService";
 import { submitRequisition } from "../../services/requisitionService";
-import { useHealth } from "../../context/HealthContext";
 const PublicHome = () => {
   const { requisitions, isLoading, error, refreshRequisitions } =
     useRequisitions();
@@ -59,17 +58,8 @@ const PublicHome = () => {
     { key: "status", label: "status" },
   ];
 
-  const { isChecking } = useHealth();
-
   return (
-    <div className="mx-auto max-w-5xl px-6 py-10 relative">
-      {isChecking && (
-        <div className="absolute left-1/2 top-4 z-50 w-full max-w-2xl -translate-x-1/2">
-          <div className="rounded-md border border-yellow-200 bg-yellow-50 px-4 py-2 text-center text-sm font-semibold text-yellow-800">
-            Please wait : we're running on a free tear service in Render. We're checking /health, thanks for your patience
-          </div>
-        </div>
-      )}
+    <div className="mx-auto max-w-5xl px-6 py-10">
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">Your Requisitions</h1>
