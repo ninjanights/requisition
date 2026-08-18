@@ -12,7 +12,7 @@ class Settings(BaseSettings):
     JINA_API_KEY: str | None = None
     GEMINI_MODEL: str = "gemini-3.1-flash-lite"
     JINA_EMBEDDING_MODEL: str = "jina-embeddings-v3"
-
+    ENVIRONMENT: str = "production"
     ADMIN_EMAIL: str
     ADMIN_PASSWORD: str
 

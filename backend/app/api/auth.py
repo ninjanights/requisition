@@ -12,7 +12,6 @@ from app.db.database import get_db
 from app.db.models import User
 from app.schemas.auth import LoginRequest
 from app.core.session import get_current_session_user
-
 router = APIRouter(
     prefix="/api/auth",
     tags=["Authentication"],
@@ -91,8 +90,8 @@ def login(
         value=access_token,
         max_age=settings.ACCESS_TOKEN_EXPIRE_MINUTES * 60,
         httponly=True,
-        samesite="lax",
-        secure=False,  # True in production with HTTPS
+        samesite="none",
+        secure=settings.ENVIRONMENT == "production",  # True in production with HTTPS
     )
 
     return {
@@ -108,8 +107,8 @@ def logout(response: Response):
     response.delete_cookie(
         key="access_token",
         httponly=True,
-        samesite="lax",
-        secure=False,
+        samesite="none",
+        secure=settings.ENVIRONMENT == "production",
     )
 
     # # for public to get out of the session | can be used in delete a/c with CRON job.

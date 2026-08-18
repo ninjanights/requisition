@@ -11,6 +11,7 @@ from sqlalchemy.orm import Session
 
 from app.db.database import get_db
 from app.db.models import User
+from app.core.config import settings
 
 # will shift this code to - settings | .env
 SESSION_COOKIE_NAME = "requisition_session"
@@ -70,8 +71,8 @@ def get_or_create_session_user(
         value=new_session_id,
         max_age=int(SESSION_DURATION.total_seconds()),
         httponly=True,
-        samesite="lax",
-        secure=False,  # Change to True when using HTTPS in production
+        samesite="none",
+        secure=settings.ENVIRONMENT == "production" # Change to True when using HTTPS in production
     )
 
     return user
@@ -96,8 +97,8 @@ def refresh_session(
         value=user.session_id,
         max_age=int(SESSION_DURATION.total_seconds()),
         httponly=True,
-        samesite="lax",
-        secure=False,  # True in production over HTTPS
+        samesite="none",
+        secure=settings.ENVIRONMENT == "production",  # True in production over HTTPS
     )
 
 """
