@@ -6,9 +6,12 @@ import type { Requisition } from "../../types/requisition";
 import { useState } from "react";
 import { embedRequisition } from "../../services/embeddingService";
 import { rebuildAllEmbeddings } from "../../services/embeddingService";
+import { submitRequisition } from "../../services/requisitionService";
+import { useHealth } from "../../context/HealthContext";
 
 const AdminHome = () => {
-  const { requisitions, isLoading, error } = useRequisitions();
+  const { requisitions, isLoading, error, refreshRequisitions } =
+    useRequisitions();
   const [isEmbeddingAll, setIsEmbeddingAll] = useState(false);
   const navigate = useNavigate();
   const columns: {
@@ -40,6 +43,7 @@ const AdminHome = () => {
   };
 
   const [embeddingId, setEmbeddingId] = useState<number | null>(null);
+  const [submittingId, setSubmittingId] = useState<number | null>(null);
 
   const handleEmbed = async (id: number) => {
     try {
@@ -54,8 +58,27 @@ const AdminHome = () => {
     }
   };
 
+  const handleSubmit = async (id: number) => {
+    try {
+      setSubmittingId(id);
+      await submitRequisition(id);
+      await refreshRequisitions();
+    } catch (error) {
+      console.error("Failed to submit requisition:", error);
+    } finally {
+      setSubmittingId(null);
+    }
+  };
+
   return (
-    <div className="mx-auto max-w-5xl px-6 py-10">
+    <div className="mx-auto max-w-5xl px-6 py-10 relative">
+      {useHealth().isChecking && (
+        <div className="absolute left-1/2 top-4 z-50 w-full max-w-2xl -translate-x-1/2">
+          <div className="rounded-md border border-yellow-200 bg-yellow-50 px-4 py-2 text-center text-sm font-semibold text-yellow-800">
+            Please wait : we're running on a free tear service in Render. We're checking /health, thanks for your patience
+          </div>
+        </div>
+      )}
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">All Requisitions</h1>
@@ -171,12 +194,22 @@ const AdminHome = () => {
                               key={col.key}
                               className={`px-4 py-3 items-center flex justify-center ${borderClasses}`}
                             >
-                              <span
-                                className="rounded-full bg-nutral-100
-                               px-3 py-1 text-[12px] font-bold"
-                              >
-                                {requisition.status}
-                              </span>
+                              {requisition.status === "submitted" ? (
+                                <span className="rounded-full bg-teal-100 px-3 py-1 text-[12px] font-bold text-teal-800">
+                                  {requisition.status}
+                                </span>
+                              ) : (
+                                <button
+                                  type="button"
+                                  onClick={() => handleSubmit(requisition.id)}
+                                  disabled={submittingId === requisition.id}
+                                  className="rounded-full bg-gray-100 px-3 py-1 text-[12px] font-bold text-neutral-800 disabled:opacity-50 disabled:cursor-wait"
+                                >
+                                  {submittingId === requisition.id
+                                    ? "Submitting..."
+                                    : requisition.status}
+                                </button>
+                              )}
                             </td>
                           );
                         }

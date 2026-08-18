@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../context/AuthContext";
@@ -7,6 +7,7 @@ const Login = () => {
   const navigate = useNavigate();
 
   const { login } = useAuth();
+  const { user, isLoading: authLoading } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -37,6 +38,13 @@ const Login = () => {
   const handlePublicWelcome = () => {
     navigate("/");
   };
+
+  useEffect(() => {
+    if (!authLoading && user?.role === "ADMIN") {
+      // Admins who are already logged in should not access /login
+      navigate("/admin", { replace: true });
+    }
+  }, [authLoading, user, navigate]);
 
   return (
     <div className="flex min-h-screen flex-col bg-neutral-300">

@@ -1,14 +1,17 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 
 import PublicLayout from "./layouts/PublicLayout";
 import AdminLayout from "./layouts/AdminLayout";
 import Navbar from "./components/navbar/Nav";
+import Footer from "./components/Footer";
+import { HealthProvider } from "./context/HealthContext";
 
 import ProtectedRoute from "./components/ProtectedRoutes";
 
 import Login from "./pages/public/Login";
 import PublicHome from "./pages/public/PublicHome";
 import RequisitionDetails from "./pages/public/RequisitionDetails";
+import Documentation from "./pages/Documentation";
 
 import AdminHome from "./pages/admin/AdminHome";
 import CreateRequisition from "./pages/public/CreateRequisition";
@@ -17,12 +20,17 @@ import AskPage from "./pages/AskPage";
 import { Import } from "lucide-react";
 import RackPage from "./pages/RackPage";
 
-function App() {
+function AppWrapper() {
+  const location = useLocation();
+  const hideOn = ["/login"];
+  const shouldHide = hideOn.includes(location.pathname);
+
   return (
-    <BrowserRouter>
-      <Navbar />
+    <>
+      {!shouldHide && <Navbar />}
       <Routes>
         {/* ----------------- PUBLIC ----------------- */}
+        <Route path="/docs" element={<Documentation />} />
         <Route path="/ask" element={<AskPage />} />
         <Route path="/requisitions/import" element={<RackPage />} />
         <Route path="/requisitions/import" element={<Import />} />
@@ -59,7 +67,18 @@ function App() {
 
         <Route path="*" element={<div>Page Not Found</div>} />
       </Routes>
-      <Ask />
+      {!shouldHide && <Ask />}
+      <Footer />
+    </>
+  );
+}
+
+function App() {
+  return (
+    <BrowserRouter>
+      <HealthProvider>
+        <AppWrapper />
+      </HealthProvider>
     </BrowserRouter>
   );
 }

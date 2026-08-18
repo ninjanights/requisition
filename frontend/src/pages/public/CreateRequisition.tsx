@@ -208,13 +208,14 @@ const CreateRequisition = () => {
         <div className="mb-8 overflow-hidden rounded-xl border-2 border-neutral-500">
           <div className="grid grid-cols-2">
             {/* Project */}
-            <div className="border-b-2 border-r-2 border-neutral-500 p-5">
+            <div className="border-b-0 border-r-2 border-neutral-500 p-5">
               <label
                 htmlFor="project"
                 className="text-xs font-semibold uppercase tracking-wide text-neutral-500"
               >
                 Project
               </label>
+              
 
               <input
                 id="project"
@@ -223,9 +224,7 @@ const CreateRequisition = () => {
                 onChange={(event) => setProjectName(event.target.value)}
                 placeholder="Enter project name"
                 // required
-                className="mt-2 w-full border-0 bg-transparent
-                           text-sm outline-none
-                           placeholder:text-neutral-300"
+                className="mt-2 w-full border-0 bg-transparent text-sm text-neutral-800 outline-none placeholder:text-neutral-400"
               />
               {errors.projectName && (
                 <span className="text-[10px] font-bold text-red-600">
@@ -235,7 +234,7 @@ const CreateRequisition = () => {
             </div>
 
             {/* Department */}
-            <div className="border-b-2 border-neutral-500 p-5">
+            <div className="border-b-0 border-neutral-500 p-5">
               <label
                 htmlFor="department"
                 className="text-xs font-semibold uppercase tracking-wide text-neutral-500"
@@ -249,9 +248,7 @@ const CreateRequisition = () => {
                 onChange={(event) => setDepartment(event.target.value)}
                 placeholder="Enter department"
                 // required
-                className="mt-2 w-full border-0 bg-transparent
-                           text-sm outline-none
-                           placeholder:text-neutral-300"
+                className="mt-2 w-full border-0 bg-transparent text-sm text-neutral-800 outline-none placeholder:text-neutral-400"
               />{" "}
               {errors.department && (
                 <span className="whitespace-nowrap text-[10px] font-bold text-red-600">

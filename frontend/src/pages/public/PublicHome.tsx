@@ -5,11 +5,15 @@ import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/AuthContext";
 import { embedRequisition } from "../../services/embeddingService";
+import { submitRequisition } from "../../services/requisitionService";
+import { useHealth } from "../../context/HealthContext";
 const PublicHome = () => {
-  const { requisitions, isLoading, error } = useRequisitions();
+  const { requisitions, isLoading, error, refreshRequisitions } =
+    useRequisitions();
   const navigate = useNavigate();
   const { user, isLoading: authLoading } = useAuth();
   const [embeddingId, setEmbeddingId] = useState<number | null>(null);
+  const [submittingId, setSubmittingId] = useState<number | null>(null);
 
   const handleEmbed = async (id: number) => {
     try {
@@ -21,6 +25,19 @@ const PublicHome = () => {
       console.error("Failed to embed requisition:", error);
     } finally {
       setEmbeddingId(null);
+    }
+  };
+
+  const handleSubmit = async (id: number) => {
+    try {
+      setSubmittingId(id);
+      await submitRequisition(id);
+      // refresh the list from context
+      await refreshRequisitions();
+    } catch (error) {
+      console.error("Failed to submit requisition:", error);
+    } finally {
+      setSubmittingId(null);
     }
   };
 
@@ -42,8 +59,17 @@ const PublicHome = () => {
     { key: "status", label: "status" },
   ];
 
+  const { isChecking } = useHealth();
+
   return (
-    <div className="mx-auto max-w-5xl px-6 py-10">
+    <div className="mx-auto max-w-5xl px-6 py-10 relative">
+      {isChecking && (
+        <div className="absolute left-1/2 top-4 z-50 w-full max-w-2xl -translate-x-1/2">
+          <div className="rounded-md border border-yellow-200 bg-yellow-50 px-4 py-2 text-center text-sm font-semibold text-yellow-800">
+            Please wait : we're running on a free tear service in Render. We're checking /health, thanks for your patience
+          </div>
+        </div>
+      )}
       <div className="mb-8 flex items-center justify-between">
         <div>
           <h1 className="text-2xl font-bold">Your Requisitions</h1>
@@ -144,9 +170,23 @@ const PublicHome = () => {
                               key={col.key}
                               className={`px-4 py-3 ${borderClasses}`}
                             >
-                              <span className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium">
-                                {requisition.status}
-                              </span>
+                              {requisition.status === "submitted" ? (
+                                <span className="rounded-full bg-teal-100 px-3 py-1 text-xs font-medium text-teal-800">
+                                  {requisition.status}
+                                </span>
+                              ) : (
+                                <button
+                                  type="button"
+                                  onClick={() => handleSubmit(requisition.id)}
+                                  disabled={submittingId === requisition.id}
+                                  className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 disabled:cursor-wait disabled:opacity-50"
+                                  title={`Submit ${requisition.requisition_no}`}
+                                >
+                                  {submittingId === requisition.id
+                                    ? "Submitting..."
+                                    : requisition.status}
+                                </button>
+                              )}
                             </td>
                           );
                         }
@@ -186,10 +226,7 @@ const PublicHome = () => {
             <div className="h-[29px]" />
 
             {requisitions.map((requisition) => (
-              <div
-                key={requisition.id}
-                className="flex h-[52px] items-center gap-3"
-              >
+                <div key={requisition.id} className="flex h-[52px] items-center gap-3">
                 <button
                   type="button"
                   onClick={() => navigate(`/requisitions/${requisition.id}`)}
@@ -215,6 +252,7 @@ const PublicHome = () => {
                       : "Not Embedded"}
                   </button>
                 )}
+                {/* status is now clickable in the table cell; no separate submit button here */}
               </div>
             ))}
           </div>
