@@ -5,10 +5,7 @@ import { createRequisition } from "../../services/requisitionService";
 import { useNavigate } from "react-router-dom";
 import { useRequisitions } from "../../context/RequisitionContext";
 import { useAuth } from "../../context/AuthContext";
-import {
-  requisitionSchema,
-  type RequisitionFormData,
-} from "../../validation/validation";
+import { requisitionSchema } from "../../validation/validation";
 interface FormItem {
   description: string;
   quantity: string;

@@ -1,8 +1,8 @@
-import { NavLink, useNavigate } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Home as HomeIcon, MessageSquareCode, Upload, ArrowLeft } from "lucide-react";
 
 const PublicNavbar = () => {
-  const navigate = useNavigate();
+  
 
   return (
     <header className="bg-transparent">
