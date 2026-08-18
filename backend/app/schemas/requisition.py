@@ -136,7 +136,6 @@ class RequisitionDetailResponse(BaseModel):
 class RequisitionListResponse(BaseModel):
     """
     Lightweight response for GET /api/requisitions.
-
     We don't return the items here because the list screen
     only needs summary information.
     """
@@ -147,5 +146,6 @@ class RequisitionListResponse(BaseModel):
     department: str
     status: RequisitionStatus
     created_at: datetime
+    is_embedded: bool
 
     model_config = ConfigDict(from_attributes=True)

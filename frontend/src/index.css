@@ -1,0 +1,24 @@
+
+@import "tailwindcss";
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  min-height: 100%;
+  margin: 0;
+}
+body {
+  background: #d4d4d8; /* neutral-300 */
+}
+
+#root {
+  max-width: 1000px;
+  min-height: 100vh;
+  margin: 0 auto;
+  background: #d4d4d8; /* neutral-300 */
+}
+

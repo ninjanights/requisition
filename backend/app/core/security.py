@@ -127,3 +127,42 @@ def get_current_admin(
         )
 
     return user
+
+
+def get_optional_admin(
+    access_token: str | None = Cookie(
+        default=None,
+        alias="access_token",
+    ),
+    db: Session = Depends(get_db),
+) -> User | None:
+    """
+    Return the current admin if a valid access_token exists.
+    Otherwise return None.
+    """
+
+    if not access_token:
+        return None
+
+    payload = decode_access_token(access_token)
+
+    if not payload:
+        return None
+
+    user_id = payload.get("sub")
+
+    try:
+        user_id = int(user_id)
+    except (TypeError, ValueError):
+        return None
+
+    user = (
+        db.query(User)
+        .filter(
+            User.id == user_id,
+            User.role == "ADMIN",
+        )
+        .first()
+    )
+
+    return user

@@ -3,7 +3,6 @@ from fastapi import APIRouter, Depends, HTTPException, Query, status, Response
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 from typing import Optional
-
 from app.core.auth import get_current_user_or_session
 from app.core.session import get_or_create_session_user, refresh_session
 from app.db.database import get_db
@@ -19,6 +18,10 @@ from app.schemas.requisition import (
     RequisitionListResponse,
     RequisitionDetailResponse,
 )
+from app.services.requisition_import_service import (
+    RequisitionImportService,
+)
+from app.schemas.requisition_import import ImportedRequisition
 
 router = APIRouter(
     prefix="/api/requisitions",
@@ -61,8 +64,8 @@ def create_requisition(
                 requisition_id=requisition.id,
                 description=item.description,
                 quantity=item.quantity,
-                unit=item.unit,
-                estimated_rate=item.estimated_rate,
+                unit=item.unit or "unit",
+        estimated_rate=item.estimated_rate or 0,
             )
 
             db.add(requisition_item)
@@ -190,3 +193,84 @@ def submit_requisition(
     db.refresh(requisition)
 
     return requisition
+
+
+# import Requisition | validate -> db | for all
+# import Requisition | Gemini -> validate -> PostgreSQL
+# POST /api/requisitions/import
+@router.post(
+    "/import",
+    response_model=RequisitionResponse,
+    status_code=status.HTTP_201_CREATED,
+)
+async def import_requisition(
+    text: str,
+    response: Response,
+    db: Session = Depends(get_db),
+    current_user: User = Depends(get_current_user_or_session),
+):
+    if not text.strip():
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Input text cannot be empty",
+        )
+
+    service = RequisitionImportService()
+
+    try:
+        # 1. Send raw input to Gemini
+        extracted_data = await service.extract_requisition(text)
+
+        # 2. Validate Gemini's response
+        requisition_data = ImportedRequisition(**extracted_data)
+
+        # 3. Create requisition
+        requisition = Requisition(
+            requisition_no="TEMP",
+            project_name=requisition_data.project_name,
+            requested_by=current_user.id,
+            department=requisition_data.department,
+            status=RequisitionStatus.DRAFT,
+            is_embedded=False,
+        )
+
+        db.add(requisition)
+
+        # 4. Generate database ID
+        db.flush()
+
+        # 5. Generate actual requisition number
+        requisition.requisition_no = f"PR-{requisition.id:06d}"
+
+        # 6. Insert requisition items
+        for item in requisition_data.items:
+            requisition_item = RequisitionItem(
+                requisition_id=requisition.id,
+                description=item.description,
+                quantity=item.quantity,
+                unit=item.unit or "unit",
+        estimated_rate=item.estimated_rate or 0,
+            )
+
+            db.add(requisition_item)
+
+        # 7. Commit everything
+        db.commit()
+        db.refresh(requisition)
+
+        # Refresh public session if necessary
+        if current_user.role == "PUBLIC":
+            refresh_session(
+                response=response,
+                user=current_user,
+            )
+
+        return requisition
+
+    except Exception as e:
+        db.rollback()
+        print("IMPORT ERROR:", repr(e))
+        raise HTTPException(
+            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
+            detail=f"Failed to import requisition: {str(e)}",
+        )

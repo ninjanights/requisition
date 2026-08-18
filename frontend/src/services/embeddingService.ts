@@ -1,0 +1,29 @@
+import type { EmbedRequisitionResponse } from "../types/requisition";
+import api from "./api";
+
+export interface RebuildEmbeddingsResponse {
+  total: number;
+  embedded: number;
+}
+
+export const rebuildAllEmbeddings = async (): Promise<RebuildEmbeddingsResponse> => {
+  const response = await api.post<RebuildEmbeddingsResponse>(
+    "/api/embeddings/rebuild-all",
+  );
+
+  return response.data;
+};
+
+
+/**
+ * POST /api/embeddings/{id}
+ */
+export const embedRequisition = async (
+  id: number,
+): Promise<EmbedRequisitionResponse> => {
+  const response = await api.post<EmbedRequisitionResponse>(
+    `/api/embeddings/${id}`,
+  );
+
+  return response.data;
+};

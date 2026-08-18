@@ -1,27 +1,65 @@
-import "./App.css";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+
+import PublicLayout from "./layouts/PublicLayout";
+import AdminLayout from "./layouts/AdminLayout";
+import Navbar from "./components/navbar/Nav";
+
+import ProtectedRoute from "./components/ProtectedRoutes";
+
+import Login from "./pages/public/Login";
+import PublicHome from "./pages/public/PublicHome";
+import RequisitionDetails from "./pages/public/RequisitionDetails";
+
+import AdminHome from "./pages/admin/AdminHome";
+import CreateRequisition from "./pages/public/CreateRequisition";
+import Ask from "./components/Ask";
+import AskPage from "./pages/AskPage";
+import { Import } from "lucide-react";
+import RackPage from "./pages/RackPage";
 
 function App() {
   return (
     <BrowserRouter>
+      <Navbar />
       <Routes>
-        {/* Public Routes */}
-        <Route path="/" element={<div>Home</div>} />
-        <Route path="/login" element={<div>Login</div>} />
+        {/* ----------------- PUBLIC ----------------- */}
+        <Route path="/ask" element={<AskPage />} />
+        <Route path="/requisitions/import" element={<RackPage />} />
+        <Route path="/requisitions/import" element={<Import />} />
+        <Route element={<PublicLayout />}>
+          <Route path="/" element={<PublicHome />} />
 
-        {/* Admin Routes */}
-        <Route path="/admin">
-          <Route path="dashboard" element={<div>Admin Dashboard</div>} />
-          <Route path="requisitions" element={<div>Requisitions</div>} />
-          <Route
-            path="requisitions/create"
-            element={<div>Create Requisition</div>}
-          />
+          <Route path="/requisitions/:id" element={<RequisitionDetails />} />
         </Route>
 
-        {/* 404 */}
+        {/* ----------------- LOGIN ----------------- */}
+        <Route path="/login" element={<Login />} />
+
+        {/* ----------------- SHARED CREATE ----------------- */}
+        <Route path="/requisitions/create" element={<CreateRequisition />} />
+
+        {/* ----------------- ADMIN ----------------- */}
+        <Route element={<ProtectedRoute allowedRoles={["ADMIN"]} />}>
+          <Route path="/admin" element={<AdminLayout />}>
+            {/* /admin */}
+            <Route index element={<AdminHome />} />
+
+            {/* /admin/requisitions/:id */}
+            <Route path="requisitions/:id" element={<RequisitionDetails />} />
+
+            {/* /admin/embeddings-questions */}
+            <Route
+              path="embeddings-questions"
+              element={<div>Embeddings & Questions</div>}
+            />
+          </Route>
+        </Route>
+
+        {/* ----------------- 404 ----------------- */}
+
         <Route path="*" element={<div>Page Not Found</div>} />
       </Routes>
+      <Ask />
     </BrowserRouter>
   );
 }

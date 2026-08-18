@@ -100,7 +100,6 @@ def refresh_session(
         secure=False,  # True in production over HTTPS
     )
 
-
 """
 POST /api/requisitions
         |
@@ -116,3 +115,42 @@ db.commit()
         │
 cookie gets another 24 hours
 """
+
+# get current session user | .../me
+def get_current_session_user(
+    session_id: str | None = Cookie(
+        default=None,
+        alias=SESSION_COOKIE_NAME,
+    ),
+    db: Session = Depends(get_db),
+) -> User | None:
+    """
+    Identify an existing public browser session.
+
+    Does NOT create a new user or session.
+    """
+
+    if not session_id:
+        return None
+
+    now = datetime.now(timezone.utc)
+
+    user = (
+        db.query(User)
+        .filter(
+            User.session_id == session_id,
+            User.role == "PUBLIC",
+        )
+        .first()
+    )
+
+    if not user:
+        return None
+
+    if not user.session_expires_at:
+        return None
+
+    if user.session_expires_at <= now:
+        return None
+
+    return user

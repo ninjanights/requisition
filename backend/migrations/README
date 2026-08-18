@@ -1,1 +1,4 @@
-Generic single-database configuration.
+admin - POST /api/embeddings/rebuild-all
+
+POST /api/embeddings/{requisition_id}
+POST /api/questions

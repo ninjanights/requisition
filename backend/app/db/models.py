@@ -1,4 +1,17 @@
-from sqlalchemy import Column, Integer, String, ForeignKey, Numeric, DateTime, Enum as SQLEnum
+from sqlalchemy import (
+    Column,
+    Boolean,
+    Text,
+    Integer,
+    String,
+    ForeignKey,
+    Numeric,
+    DateTime,
+    Enum as SQLEnum,
+)
+
+from pgvector.sqlalchemy import Vector
+
 
 from sqlalchemy.orm import relationship
 from sqlalchemy.sql import func
@@ -24,7 +37,7 @@ class User(Base):
     email = Column(String(255), unique=True, nullable=True)
     password_hash = Column(String(255), nullable=True)
     role = Column(String(20), nullable=False, default="PUBLIC")
-    
+
     session_id = Column(
         String(64),
         unique=True,
@@ -61,12 +74,25 @@ class Requisition(Base):
         nullable=False,
         default=RequisitionStatus.DRAFT,
     )
+
+    is_embedded = Column(
+        Boolean,
+        nullable=False,
+        default=False,
+    )
+
     created_at = Column(DateTime(timezone=True), server_default=func.now())
 
     requester = relationship("User", back_populates="requisitions")
 
     items = relationship(
         "RequisitionItem", back_populates="requisition", cascade="all, delete-orphan"
+    )
+    embedding = relationship(
+        "RequisitionEmbedding",
+        back_populates="requisition",
+        uselist=False,
+        cascade="all, delete-orphan",
     )
 
 
@@ -81,3 +107,45 @@ class RequisitionItem(Base):
     estimated_rate = Column(Numeric(12, 2), nullable=False)
 
     requisition = relationship("Requisition", back_populates="items")
+
+
+# embeddings table
+class RequisitionEmbedding(Base):
+    __tablename__ = "requisition_embeddings"
+
+    id = Column(Integer, primary_key=True)
+
+    requisition_id = Column(
+        Integer,
+        ForeignKey("requisitions.id", ondelete="CASCADE"),
+        nullable=False,
+        unique=True,
+    )
+
+    content = Column(Text, nullable=False)
+
+    embedding = Column(Vector(1024), nullable=False)
+
+    embedding_model = Column(
+        String(100),
+        nullable=False,
+        default="jina-embeddings-v3",
+    )
+
+    created_at = Column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        nullable=False,
+    )
+
+    updated_at = Column(
+        DateTime(timezone=True),
+        server_default=func.now(),
+        onupdate=func.now(),
+        nullable=False,
+    )
+
+    requisition = relationship(
+        "Requisition",
+        back_populates="embedding",
+    )
