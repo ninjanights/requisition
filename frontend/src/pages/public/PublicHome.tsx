@@ -92,8 +92,22 @@ const PublicHome = () => {
       {error && <p className="text-sm text-red-600">{error}</p>}
 
       {!isLoading && !error && requisitions.length === 0 && (
-        <div className="rounded-lg border p-8 text-center">
-          <p className="text-gray-500">No requisitions found.</p>
+        <div className="flex min-h-[60vh] items-center justify-center">
+          <div className="flex max-w-md flex-col items-center gap-4 rounded-2xl border-[2px] border-neutral-500 bg-neutral-200 px-10 py-12 text-center shadow-sm">
+            <h2 className="text-2xl font-black text-neutral-900">
+              Create a requisition
+            </h2>
+            <p className="text-sm font-medium text-neutral-600">
+              No session requisitions yet. Start a fresh session and create your first one.
+            </p>
+            <button
+              type="button"
+              onClick={() => navigate("/requisitions/create")}
+              className="rounded-xl bg-[#281C59] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#1f163e]"
+            >
+              Create Requisition
+            </button>
+          </div>
         </div>
       )}
 

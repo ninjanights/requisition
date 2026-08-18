@@ -36,7 +36,7 @@ const Login = () => {
   };
 
   const handlePublicWelcome = () => {
-    navigate("/");
+    navigate("/home");
   };
 
   useEffect(() => {

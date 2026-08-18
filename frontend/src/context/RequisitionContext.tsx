@@ -45,11 +45,18 @@ export const RequisitionProvider = ({ children }: RequisitionProviderProps) => {
       setError(null);
 
       const data = await getMyRequisitions();
-      console.log(data, "datall");
       setRequisitions(data);
-    } catch (error) {
-      console.error("Failed to fetch requisitions:", error);
+    } catch (error: any) {
+      const status = error?.response?.status;
 
+      if (status === 401 || status === 403) {
+        setRequisitions([]);
+        setError(null);
+        return;
+      }
+
+      console.error("Failed to fetch requisitions:", error);
+      setRequisitions([]);
       setError("Failed to load requisitions.");
     } finally {
       setIsLoading(false);

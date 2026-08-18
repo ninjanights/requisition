@@ -1,4 +1,10 @@
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+import {
+  BrowserRouter,
+  Routes,
+  Route,
+  Navigate,
+  useLocation,
+} from "react-router-dom";
 
 import PublicLayout from "./layouts/PublicLayout";
 import AdminLayout from "./layouts/AdminLayout";
@@ -29,13 +35,13 @@ function AppWrapper() {
       {!shouldHide && <Navbar />}
       <Routes>
         {/* ----------------- PUBLIC ----------------- */}
+        <Route path="/" element={<Navigate to="/login" replace />} />
         <Route path="/docs" element={<Documentation />} />
         <Route path="/ask" element={<AskPage />} />
         <Route path="/requisitions/import" element={<RackPage />} />
         <Route path="/requisitions/import" element={<Import />} />
         <Route element={<PublicLayout />}>
-          <Route path="/" element={<PublicHome />} />
-
+          <Route path="/home" element={<PublicHome />} />
           <Route path="/requisitions/:id" element={<RequisitionDetails />} />
         </Route>
 
