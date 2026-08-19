@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 
 import { useAuth } from "../../context/AuthContext";
+import useBackendStatus from "../../hooks/useBackendStatus";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -39,6 +40,8 @@ const Login = () => {
     navigate("/home");
   };
 
+  const online = useBackendStatus();
+
   useEffect(() => {
     if (!authLoading && user?.role === "ADMIN") {
       // Admins who are already logged in should not access /login
@@ -50,10 +53,9 @@ const Login = () => {
     <div className="flex min-h-fit flex-col my-[100px] bg-neutral-300">
       <main className="flex flex-1 items-center justify-center bg-neutral-300 px-4 py-6 sm:px-6">
         <div className="flex w-full max-w-md -translate-y-2 flex-col items-center text-center">
-         
-           <p className="mt-3 text-neutral-600 mb-2 text-center text-[10px] font-bold
-           w-sm text-neutral-500">
-            We're running on a free tear service in Render. Please refresh after few seconds, We're coming up with a Cron Job to do that for you. - v1.0.0
+          {/** backend status */}
+          <p className="mb-3 text-xs font-bold text-neutral-500 text-center">
+            {online ? "Awake" : "Sleeping"}
           </p>
           <h1 className="mb-3 text-3xl font-black leading-none text-neutral-900 sm:text-5xl">
             {"{Requisition}"}

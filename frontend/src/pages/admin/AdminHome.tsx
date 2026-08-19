@@ -4,6 +4,7 @@ import { Eye, Plus } from "lucide-react";
 import { useRequisitions } from "../../context/RequisitionContext";
 import type { Requisition } from "../../types/requisition";
 import { useState } from "react";
+import useBackendStatus from "../../hooks/useBackendStatus";
 import { embedRequisition } from "../../services/embeddingService";
 import { rebuildAllEmbeddings } from "../../services/embeddingService";
 import { submitRequisition } from "../../services/requisitionService";
@@ -11,6 +12,7 @@ import { submitRequisition } from "../../services/requisitionService";
 const AdminHome = () => {
   const { requisitions, isLoading, error, refreshRequisitions } =
     useRequisitions();
+  const online = useBackendStatus();
   const [isEmbeddingAll, setIsEmbeddingAll] = useState(false);
   const navigate = useNavigate();
   const columns: {
@@ -116,8 +118,8 @@ const AdminHome = () => {
       {error && <p className="text-sm text-red-600">{error}</p>}
 
       {!isLoading && !error && requisitions.length === 0 && (
-        <div className="rounded-lg border p-8 text-center">
-          <p className="text-gray-500">No requisitions found.</p>
+        <div className="flex min-h-[40vh] items-center justify-center">
+          <p className="text-xs font-bold text-neutral-500">{online ? "Awake" : "Sleeping"}</p>
         </div>
       )}
 

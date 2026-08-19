@@ -3,12 +3,14 @@ import type { Requisition } from "../../types/requisition";
 import { Eye, Plus } from "lucide-react";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import useBackendStatus from "../../hooks/useBackendStatus";
 import { useAuth } from "../../context/AuthContext";
 import { embedRequisition } from "../../services/embeddingService";
 import { submitRequisition } from "../../services/requisitionService";
 const PublicHome = () => {
   const { requisitions, isLoading, error, refreshRequisitions } =
     useRequisitions();
+  const online = useBackendStatus();
   const navigate = useNavigate();
   const { user, isLoading: authLoading } = useAuth();
   const [embeddingId, setEmbeddingId] = useState<number | null>(null);
@@ -93,21 +95,7 @@ const PublicHome = () => {
 
       {!isLoading && !error && requisitions.length === 0 && (
         <div className="flex min-h-[60vh] items-center justify-center">
-          <div className="flex max-w-md flex-col items-center gap-4 rounded-2xl border-[2px] border-neutral-500 bg-neutral-200 px-10 py-12 text-center shadow-sm">
-            <h2 className="text-2xl font-black text-neutral-900">
-              Create a requisition
-            </h2>
-            <p className="text-sm font-medium text-neutral-600">
-              No session requisitions yet. Start a fresh session and create your first one.
-            </p>
-            <button
-              type="button"
-              onClick={() => navigate("/requisitions/create")}
-              className="rounded-xl bg-[#281C59] px-6 py-3 text-sm font-bold text-white transition hover:bg-[#1f163e]"
-            >
-              Create Requisition
-            </button>
-          </div>
+          <p className="text-xs font-bold text-neutral-500">{online ? "Awake" : "Sleeping"}</p>
         </div>
       )}
 
