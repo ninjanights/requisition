@@ -54,7 +54,7 @@ const Login = () => {
         <div className="flex w-full max-w-md -translate-y-2 flex-col items-center text-center">
           {/** backend status */}
           <p className="mb-3 text-center text-xs font-bold text-neutral-500">
-            {status === "checking" && "Awakening"}
+            {status === "checking" || (isChecking && "Awakening")}
             {status === "awake" && "Awake"}
             {status === "sleeping" && "Sleeping"}
           </p>
