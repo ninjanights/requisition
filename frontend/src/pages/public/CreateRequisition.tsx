@@ -174,7 +174,7 @@ const CreateRequisition = () => {
       if (user?.role === "ADMIN") {
         navigate("/admin");
       } else {
-        navigate("/");
+        navigate("/home");
       }
     } catch (error) {
       console.error("Failed to create requisition:", error);
