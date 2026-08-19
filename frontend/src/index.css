@@ -1,5 +1,12 @@
-
 @import "tailwindcss";
+
+:root {
+  --app-accent: #281c59;
+  --app-bg: #d4d4d8;
+  --app-border: #737373;
+  --app-muted: #525252;
+  --app-text: #171717;
+}
 
 * {
   box-sizing: border-box;
@@ -11,14 +18,131 @@ body,
   min-height: 100%;
   margin: 0;
 }
+
 body {
-  background: #d4d4d8; /* neutral-300 */
+  background: var(--app-bg);
+  color: var(--app-text);
+  font-size: 12px;
 }
 
 #root {
   max-width: 1000px;
   min-height: 100vh;
   margin: 0 auto;
-  background: #d4d4d8; /* neutral-300 */
+  background: var(--app-bg);
 }
 
+.app-shell {
+  min-height: calc(100vh - 96px);
+  background: var(--app-bg);
+}
+
+.app-page {
+  width: 100%;
+  max-width: 64rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+}
+
+.app-page-wide {
+  width: 100%;
+  max-width: 72rem;
+  margin: 0 auto;
+  padding: 2.5rem 1.5rem;
+}
+
+.app-title {
+  color: var(--app-text);
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.app-subtitle {
+  margin-top: 0.25rem;
+  color: var(--app-muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.app-kicker {
+  margin-bottom: 0.25rem;
+  color: var(--app-muted);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.app-panel {
+  overflow: hidden;
+  border: 4px solid var(--app-border);
+  border-radius: 12px;
+  background: transparent;
+}
+
+.app-input {
+  width: 100%;
+  border: 4px solid var(--app-border);
+  border-radius: 10px;
+  background: transparent;
+  color: var(--app-text);
+  font-size: 12px;
+  font-weight: 800;
+  outline: none;
+  transition: border-color 160ms ease, box-shadow 160ms ease;
+}
+
+.app-input::placeholder {
+  color: #737373;
+  font-weight: 800;
+}
+
+.app-input:focus {
+  border-color: var(--app-accent);
+  box-shadow: 0 0 0 1px var(--app-accent);
+}
+
+.app-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border-radius: 10px;
+  background: var(--app-accent);
+  color: #e5e5e5;
+  font-size: 12px;
+  font-weight: 800;
+  transition: opacity 160ms ease, transform 160ms ease;
+}
+
+.app-button:hover {
+  opacity: 0.9;
+}
+
+.app-button:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+
+.app-button-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  border: 4px solid var(--app-accent);
+  border-radius: 10px;
+  color: var(--app-accent);
+  font-size: 12px;
+  font-weight: 800;
+  transition: background-color 160ms ease, color 160ms ease, opacity 160ms ease;
+}
+
+.app-button-secondary:hover {
+  background: var(--app-accent);
+  color: #e5e5e5;
+}
+
+.app-error {
+  color: #dc2626;
+  font-size: 10px;
+  font-weight: 800;
+}

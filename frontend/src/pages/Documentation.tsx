@@ -2,14 +2,14 @@ const Documentation = () => {
   const itemClass = "text-[12px] font-bold text-neutral-600";
 
   return (
-    <div className="mx-auto max-w-6xl px-6 py-12">
-      <h1 className="mb-8 text-[24px] flex items-center justify-center font-bold">About Us</h1>
+    <div className="app-page-wide">
+      <h1 className="app-title mb-8 flex items-center justify-center">About Us</h1>
 
-      <div className="flex flex-col items-center sm:flex-row sm:items-start sm:justify-center sm:divide-x sm:divide-neutral-300">
+      <div className="flex flex-col items-center sm:flex-row sm:items-start sm:justify-center sm:divide-x sm:divide-neutral-500">
       
 
         <div className="sm:px-8 sm:py-0 py-4">
-          <h3 className="mb-2 text-[16px] font-bold text-[#281C59]">Backend</h3>
+          <h3 className="mb-2 text-[16px] font-bold text-[#281c59]">Backend</h3>
           <ul className="space-y-1">
             <li className={itemClass}>Python</li>
             <li className={itemClass}>FastAPI</li>
@@ -21,7 +21,7 @@ const Documentation = () => {
           </ul>
         </div>
           <div className="sm:px-8 sm:py-0 py-4">
-          <h3 className="mb-2 text-[16px] font-bold text-[#281C59]">Frontend</h3>
+          <h3 className="mb-2 text-[16px] font-bold text-[#281c59]">Frontend</h3>
           <ul className="space-y-1">
             <li className={itemClass}>React</li>
             <li className={itemClass}>TypeScript</li>
@@ -34,7 +34,7 @@ const Documentation = () => {
 
 
         <div className="sm:px-8 sm:py-0 py-4">
-          <h3 className="mb-2 text-[16px] font-bold text-[#281C59]">Authentication</h3>
+          <h3 className="mb-2 text-[16px] font-bold text-[#281c59]">Authentication</h3>
           <ul className="space-y-1">
             <li className={itemClass}>Session-based authentication</li>
             <li className={itemClass}>HTTP-only cookies</li>
@@ -44,7 +44,7 @@ const Documentation = () => {
         </div>
 
         <div className="sm:px-8 sm:py-0 py-4">
-          <h3 className="mb-2 text-[16px] font-bold text-[#281C59]">AI</h3>
+          <h3 className="mb-2 text-[16px] font-bold text-[#281c59]">AI</h3>
           <ul className="space-y-1">
             <li className={itemClass}>Google Gemini : requisition extraction + question answering</li>
             <li className={itemClass}>Jina Embeddings</li>
@@ -53,7 +53,7 @@ const Documentation = () => {
           </ul>
         </div>
         <div className="sm:px-8 sm:py-0 py-4">
-          <h3 className="mb-2 text-[16px] font-bold text-[#281C59]">We're live with</h3>
+          <h3 className="mb-2 text-[16px] font-bold text-[#281c59]">We're live with</h3>
           <ul className="space-y-1">
             
             <li className={itemClass}>Backend : Render</li>
@@ -67,3 +67,4 @@ const Documentation = () => {
 };
 
 export default Documentation;
+

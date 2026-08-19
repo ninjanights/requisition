@@ -28,10 +28,10 @@ const RackPage = () => {
   };
 
   return (
-    <div className="mx-auto max-w-3xl px-6 py-10">
-      <h1 className="text-2xl font-bold">Import Requisition</h1>
+    <div className="app-page">
+      <h1 className="app-title">Import Requisition</h1>
 
-      <p className="mt-1 text-sm text-neutral-500">
+      <p className="app-subtitle">
         Paste requisition information in any format.
       </p>
 
@@ -46,25 +46,18 @@ Department: IT
 10 Dell laptops - ₹75000 each
 5 wireless keyboards - ₹1500 each
 20 monitors - ₹12000 each`}
-        className="mt-6 min-h-[300px] w-full rounded-xl border-2
-                   border-neutral-300 bg-neutral-50 p-4 text-sm
-                   outline-none transition
-                   focus:border-neutral-700"
+        className="app-input mt-6 min-h-[300px] p-4"
       />
 
       {error && (
-        <p className="mt-3 text-sm font-medium text-red-600">{error}</p>
+        <p className="app-error mt-3">{error}</p>
       )}
 
       <button
         type="button"
         onClick={handleImport}
         disabled={!text.trim() || isLoading}
-        className="mt-4 rounded-lg bg-neutral-900 px-5 py-3
-                   text-sm font-semibold text-white
-                   transition hover:bg-neutral-700
-                   disabled:cursor-not-allowed
-                   disabled:opacity-50"
+        className="app-button mt-4 px-5 py-3"
       >
         {isLoading ? "Importing..." : "Import Requisition"}
       </button>
@@ -73,3 +66,4 @@ Department: IT
 };
 
 export default RackPage;
+

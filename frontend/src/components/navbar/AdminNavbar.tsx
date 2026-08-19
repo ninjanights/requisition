@@ -2,6 +2,11 @@ import { NavLink, useNavigate } from "react-router-dom";
 import { Home as HomeIcon, MessageSquareCode, Upload } from "lucide-react";
 import { useAuth } from "../../context/AuthContext";
 
+const navLinkClass = ({ isActive }: { isActive: boolean }) =>
+  `text-[12px] font-bold transition ${
+    isActive ? "text-[#281c59]" : "text-neutral-500 hover:text-[#281c59]"
+  }`;
+
 const AdminNavbar = () => {
   const navigate = useNavigate();
   const { user, logout } = useAuth();
@@ -14,38 +19,20 @@ const AdminNavbar = () => {
   return (
     <header className="bg-transparent">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
-
-        {/* Brand */}
-        <div className="flex items-center gap-4">
-          <NavLink to="/admin" className="font-semibold">
+        <div className="flex min-w-0 items-center gap-4">
+          <NavLink to="/admin" className="shrink-0 text-[12px] font-black text-neutral-900">
             {"{admin:requisition}"}
           </NavLink>
 
-          <div className="h-6 w-px bg-neutral-400" />
+          <div className="h-6 w-px shrink-0 bg-neutral-400" />
 
-          <NavLink
-            to="/docs"
-            className={({ isActive }) =>
-              isActive
-                ? "text-black text-[12px] font-bold"
-                : "text-gray-500 hover:text-black text-[12px] font-bold"
-            }
-          >
+          <NavLink to="/docs" className={navLinkClass}>
             About Us
           </NavLink>
         </div>
 
-        {/* Navigation */}
         <div className="flex items-center gap-6">
-
-          <NavLink
-            to="/admin"
-            className={({ isActive }) =>
-              isActive
-                ? "text-black text-[12px] font-bold"
-                : "text-gray-500 hover:text-black text-[12px] font-bold"
-            }
-          >
+          <NavLink to="/admin" className={navLinkClass}>
             <span className="flex items-center gap-2">
               <HomeIcon className="h-3 w-3" />
               Home
@@ -53,30 +40,16 @@ const AdminNavbar = () => {
           </NavLink>
 
           <div className="flex items-center gap-2">
-            <NavLink
-              to="/ask"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-black text-[12px] font-bold"
-                  : "text-gray-500 hover:text-black text-[12px] font-bold"
-              }
-            >
+            <NavLink to="/ask" className={navLinkClass}>
               <span className="flex items-center gap-2">
                 <MessageSquareCode className="h-3 w-3" />
                 Ask
               </span>
             </NavLink>
 
-            <span className="text-gray-400">·</span>
+            <span className="text-neutral-400">·</span>
 
-            <NavLink
-              to="/requisitions/import"
-              className={({ isActive }) =>
-                isActive
-                  ? "text-black text-[12px] font-bold"
-                  : "text-gray-500 hover:text-black text-[12px] font-bold"
-              }
-            >
+            <NavLink to="/requisitions/import" className={navLinkClass}>
               <span className="flex items-center gap-2">
                 <Upload className="h-3 w-3" />
                 Post
@@ -84,20 +57,17 @@ const AdminNavbar = () => {
             </NavLink>
           </div>
 
-          {/* User */}
-          <div className="border-l pl-6 text-[12px] font-bold text-neutral-600">
+          <div className="max-w-40 truncate border-l border-neutral-500 pl-6 text-[12px] font-bold text-neutral-600">
             {user?.email}
           </div>
 
-          {/* Logout */}
           <button
             type="button"
             onClick={handleLogout}
-            className="ml-4 text-[12px] font-bold text-red-600 hover:text-red-700"
+            className="text-[12px] font-bold text-red-600 transition hover:text-red-700"
           >
             Logout
           </button>
-
         </div>
       </nav>
     </header>

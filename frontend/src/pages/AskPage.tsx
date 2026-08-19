@@ -33,14 +33,14 @@ const AskPage = () => {
   };
 
   return (
-    <div className="mx-auto flex max-w-3xl flex-col px-6 py-10">
+    <div className="app-page flex flex-col">
       {/* Header */}
       <div className="mb-8">
-        <h1 className="text-2xl font-bold text-neutral-900">
+        <h1 className="app-title">
           Ask about requisitions
         </h1>
 
-        <p className="mt-1 text-sm text-neutral-500">
+        <p className="app-subtitle">
           Ask a question about your purchase requisitions.
         </p>
       </div>
@@ -57,26 +57,14 @@ const AskPage = () => {
             }
           }}
           placeholder="Ask something about the requisitions..."
-          className="
-            flex-1 rounded-xl border border-neutral-300
-            bg-white px-4 py-3 text-sm
-            outline-none transition
-            focus:border-neutral-700
-            focus:ring-1 focus:ring-neutral-700
-          "
+          className="app-input flex-1 px-4 py-3"
         />
 
         <button
           type="button"
           onClick={handleAsk}
           disabled={!question.trim() || isLoading}
-          className="
-            rounded-xl bg-neutral-900
-            px-6 py-3 text-sm font-semibold text-white
-            transition hover:bg-neutral-700
-            disabled:cursor-not-allowed
-            disabled:opacity-40
-          "
+          className="app-button px-6 py-3"
         >
           {isLoading ? "Asking..." : "Ask"}
         </button>
@@ -84,23 +72,23 @@ const AskPage = () => {
 
       {/* Error */}
       {error && (
-        <div className="mt-6 rounded-xl border border-red-200 bg-red-50 px-4 py-3">
-          <p className="text-sm text-red-600">{error}</p>
+        <div className="mt-6">
+          <p className="app-error">{error}</p>
         </div>
       )}
 
       {/* Answer */}
       {answer && (
-        <div className="mt-8 rounded-2xl border border-neutral-200 bg-neutral-50 p-6">
+        <div className="app-panel mt-8 p-6">
           <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-sm font-bold uppercase tracking-wide text-neutral-500">
+            <h2 className="text-[12px] font-bold uppercase text-neutral-500">
               Answer
             </h2>
 
             {source && (
               <span
                 className={`
-                  rounded-full px-3 py-1 text-xs font-semibold
+                  rounded-full px-3 py-1 text-[12px] font-bold
                   ${
                     source === "RAG"
                       ? "bg-pink-100 text-pink-600"
@@ -113,7 +101,7 @@ const AskPage = () => {
             )}
           </div>
 
-          <p className="whitespace-pre-wrap text-sm leading-7 text-neutral-800">
+          <p className="whitespace-pre-wrap text-[12px] font-bold leading-7 text-neutral-800">
             {answer}
           </p>
         </div>
@@ -123,3 +111,4 @@ const AskPage = () => {
 };
 
 export default AskPage;
+

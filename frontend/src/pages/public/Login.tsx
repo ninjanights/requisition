@@ -49,12 +49,12 @@ const Login = () => {
   }, [authLoading, user, navigate]);
 
   return (
-    <div className="flex min-h-fit flex-col my-[100px] bg-neutral-300">
+    <div className="flex min-h-fit flex-col bg-neutral-300 py-[100px]">
       <main className="flex flex-1 items-center justify-center bg-neutral-300 px-4 py-6 sm:px-6">
         <div className="flex w-full max-w-md -translate-y-2 flex-col items-center text-center">
           {/** backend status */}
-          <p className="mb-3 text-center text-xs font-bold text-neutral-500">
-            {status === "checking" || (isChecking && "Awakening")}
+          <p className="mb-3 text-center text-[12px] font-bold text-neutral-500">
+            {isChecking && "Awakening"}
             {status === "awake" && "Awake"}
             {status === "sleeping" && "Sleeping"}
           </p>
@@ -70,7 +70,7 @@ const Login = () => {
             <div className="text-left">
               <label
                 htmlFor="email"
-                className="mb-1 block text-xs font-bold text-neutral-700 sm:text-sm"
+                className="mb-1 block text-[12px] font-bold text-neutral-700"
               >
                 Email
               </label>
@@ -82,14 +82,14 @@ const Login = () => {
                 onChange={(event) => setEmail(event.target.value)}
                 placeholder="admin@example.com"
                 required
-                className=" font-black border-4 border-neutral-400 w-full rounded-xl px-4 py-3 text-sm text-neutral-900 outline-none placeholder:text-neutral-700"
+                className="app-input px-4 py-3"
               />
             </div>
 
             <div className="text-left">
               <label
                 htmlFor="password"
-                className="mb-1 block text-xs font-bold text-neutral-700 sm:text-sm"
+                className="mb-1 block text-[12px] font-bold text-neutral-700"
               >
                 Password
               </label>
@@ -101,8 +101,7 @@ const Login = () => {
                 onChange={(event) => setPassword(event.target.value)}
                 placeholder="••••••••"
                 required
-                className="home-auth-input font-black border-4 border-neutral-400 w-full rounded-xl px-4 py-3 text-sm text-neutral-900 outline-none placeholder:text-neutral-700
-                 "
+                className="app-input px-4 py-3"
               />
             </div>
 
@@ -113,8 +112,7 @@ const Login = () => {
             <button
               type="submit"
               disabled={isLoading || !isAwake}
-              className="bg-neutral-500 w-full max-w-md rounded-xl px-6 py-5 text-center
-               text-lg font-bold text-neutral-300"
+              className="app-button w-full max-w-md px-6 py-5 text-center text-[16px]"
             >
               {isLoading ? "Logging in..." : "{Admin:Login}"}
             </button>
@@ -131,7 +129,7 @@ const Login = () => {
             type="button"
             disabled={isLoading || !isAwake}
             onClick={handlePublicWelcome}
-            className=" bg-[#281C59] mt-4 w-full max-w-md rounded-xl px-6 py-5 text-center text-lg font-bold text-neutral-300"
+            className="app-button mt-4 w-full max-w-md px-6 py-5 text-center text-[16px]"
           >
             {"{Public:Welcome}"}
           </button>
@@ -142,3 +140,6 @@ const Login = () => {
 };
 
 export default Login;
+
+
+

@@ -16,7 +16,7 @@ const Ask = () => {
           px-1 py-1
           text-left
           text-[12px] font-bold
-          text-neutral-500
+          text-neutral-600
               hover:text-[#281c59]
         "
       >
@@ -34,7 +34,7 @@ const Ask = () => {
           px-1 py-1
           text-left
           text-[12px] font-bold
-          text-neutral-500
+          text-neutral-600
           hover:text-[#281c59]
         "
       >

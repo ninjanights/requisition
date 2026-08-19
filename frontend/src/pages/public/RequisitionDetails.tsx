@@ -16,8 +16,8 @@ const RequisitionDetails = () => {
 
   if (isLoading) {
     return (
-      <div className="mx-auto max-w-5xl px-6 py-10">
-        <p className="text-sm text-neutral-500">
+      <div className="app-page">
+        <p className="text-[12px] font-bold text-neutral-500">
           Loading...
         </p>
       </div>
@@ -26,7 +26,7 @@ const RequisitionDetails = () => {
 
   if (error) {
     return (
-      <div className="mx-auto max-w-5xl px-6 py-10 text-red-600">
+      <div className="app-page app-error">
         {error}
       </div>
     );
@@ -34,8 +34,8 @@ const RequisitionDetails = () => {
 
   if (!requisition) {
     return (
-      <div className="mx-auto max-w-5xl px-6 py-10">
-        <p className="text-sm text-neutral-500">
+      <div className="app-page">
+        <p className="text-[12px] font-bold text-neutral-500">
           Requisition not found.
         </p>
       </div>
@@ -48,14 +48,14 @@ const RequisitionDetails = () => {
   );
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-10">
+    <div className="app-page">
 
       {/* Back */}
       <button
         type="button"
         onClick={() => window.history.back()}
         className="mb-6 flex items-center gap-2
-                   text-sm text-neutral-500
+                   text-[12px] font-bold text-neutral-500
                    transition hover:text-neutral-900"
       >
         <ArrowLeft className="h-4 w-4" />
@@ -66,66 +66,66 @@ const RequisitionDetails = () => {
       <div className="mb-8 flex items-start justify-between">
 
         <div>
-          <p className="mb-1 text-sm text-neutral-500">
+          <p className="app-kicker">
             Requisition
           </p>
 
-          <h1 className="text-3xl font-bold tracking-tight">
+          <h1 className="app-title">
             {requisition.requisitionNo}
           </h1>
         </div>
 
-        <span className="rounded-full bg-neutral-100 px-4 py-2 text-xs font-medium uppercase tracking-wide text-neutral-700">
+        <span className="rounded-full bg-neutral-100 px-4 py-2 text-[12px] font-bold uppercase text-[#281c59]">
           {requisition.status}
         </span>
 
       </div>
 
       {/* Requisition information */}
-      <div className="mb-8 overflow-hidden rounded-xl border-2 border-neutral-500">
+      <div className="app-panel mb-8">
 
         <div className="grid grid-cols-2">
 
           {/* Project */}
-          <div className="border-b-2 border-r-2 border-neutral-500 p-5">
-            <p className="text-xs font-semibold uppercase tracking-wide text-neutral-500">
+          <div className="border-b-4 border-r-4 border-neutral-500 p-5">
+            <p className="text-[12px] font-bold uppercase text-neutral-500">
               Project
             </p>
 
-            <p className="mt-2 text-sm font-medium text-neutral-800">
+            <p className="mt-2 text-[12px] font-bold text-neutral-800">
               {requisition.project}
             </p>
           </div>
 
           {/* Department */}
-          <div className="border-b-2 border-neutral-500 p-5">
-            <p className="text-xs font-semibold uppercase tracking-wide text-neutral-500">
+          <div className="border-b-4 border-neutral-500 p-5">
+            <p className="text-[12px] font-bold uppercase text-neutral-500">
               Department
             </p>
 
-            <p className="mt-2 text-sm font-medium text-neutral-800">
+            <p className="mt-2 text-[12px] font-bold text-neutral-800">
               {requisition.department}
             </p>
           </div>
 
           {/* Requested By */}
-          <div className="border-r-2 border-neutral-500 p-5">
-            <p className="text-xs font-semibold uppercase tracking-wide text-neutral-500">
+          <div className="border-r-4 border-neutral-500 p-5">
+            <p className="text-[12px] font-bold uppercase text-neutral-500">
               Requested By
             </p>
 
-            <p className="mt-2 text-sm font-medium text-neutral-800">
+            <p className="mt-2 text-[12px] font-bold text-neutral-800">
               #{requisition.requestedBy}
             </p>
           </div>
 
           {/* Created */}
           <div className="p-5">
-            <p className="text-xs font-semibold uppercase tracking-wide text-neutral-500">
+            <p className="text-[12px] font-bold uppercase text-neutral-500">
               Created
             </p>
 
-            <p className="mt-2 text-sm font-medium text-neutral-800">
+            <p className="mt-2 text-[12px] font-bold text-neutral-800">
               {new Date(
                 requisition.createdAt,
               ).toLocaleString()}
@@ -139,43 +139,43 @@ const RequisitionDetails = () => {
       <div>
 
         <div className="mb-4">
-          <h2 className="text-lg font-semibold">
+          <h2 className="text-[16px] font-bold text-neutral-900">
             Items
           </h2>
 
-          <p className="mt-1 text-sm text-neutral-500">
+          <p className="app-subtitle">
             Items included in this requisition.
           </p>
         </div>
 
-        <div className="overflow-hidden rounded-xl border-2 border-neutral-500">
+        <div className="app-panel">
 
           <table className="w-full table-fixed border-collapse">
 
             <thead>
-              <tr className="border-b-2 border-neutral-500">
+              <tr className="border-b-4 border-neutral-500">
 
-                <th className="w-12 px-4 py-4 text-left text-xs font-semibold uppercase tracking-wide text-neutral-500">
+                <th className="w-12 px-4 py-4 text-left text-[12px] font-bold uppercase text-neutral-500">
                   #
                 </th>
 
-                <th className="px-4 py-4 text-left text-xs font-semibold uppercase tracking-wide text-neutral-500">
+                <th className="px-4 py-4 text-left text-[12px] font-bold uppercase text-neutral-500">
                   Description
                 </th>
 
-                <th className="w-24 px-4 py-4 text-left text-xs font-semibold uppercase tracking-wide text-neutral-500">
+                <th className="w-24 px-4 py-4 text-left text-[12px] font-bold uppercase text-neutral-500">
                   Unit
                 </th>
 
-                <th className="w-24 px-4 py-4 text-right text-xs font-semibold uppercase tracking-wide text-neutral-500">
+                <th className="w-24 px-4 py-4 text-right text-[12px] font-bold uppercase text-neutral-500">
                   Qty
                 </th>
 
-                <th className="w-32 px-4 py-4 text-right text-xs font-semibold uppercase tracking-wide text-neutral-500">
+                <th className="w-32 px-4 py-4 text-right text-[12px] font-bold uppercase text-neutral-500">
                   Rate
                 </th>
 
-                <th className="w-32 px-4 py-4 text-right text-xs font-semibold uppercase tracking-wide text-neutral-500">
+                <th className="w-32 px-4 py-4 text-right text-[12px] font-bold uppercase text-neutral-500">
                   Total
                 </th>
 
@@ -194,32 +194,32 @@ const RequisitionDetails = () => {
                     key={index}
                     className={
                       !isLast
-                        ? "border-b-2 border-neutral-500"
+                        ? "border-b-4 border-neutral-500"
                         : ""
                     }
                   >
 
-                    <td className="px-4 py-4 text-sm text-neutral-400">
+                    <td className="px-4 py-4 text-[12px] font-bold text-neutral-500">
                       {index + 1}
                     </td>
 
-                    <td className="truncate px-4 py-4 text-sm font-medium text-neutral-800">
+                    <td className="truncate px-4 py-4 text-[12px] font-bold text-neutral-800">
                       {item.description}
                     </td>
 
-                    <td className="px-4 py-4 text-sm text-neutral-600">
+                    <td className="px-4 py-4 text-[12px] font-bold text-neutral-600">
                       {item.unit}
                     </td>
 
-                    <td className="px-4 py-4 text-right text-sm text-neutral-600">
+                    <td className="px-4 py-4 text-right text-[12px] font-bold text-neutral-600">
                       {Number(item.qty)}
                     </td>
 
-                    <td className="px-4 py-4 text-right text-sm text-neutral-600">
+                    <td className="px-4 py-4 text-right text-[12px] font-bold text-neutral-600">
                       ₹{Number(item.rate).toLocaleString("en-IN")}
                     </td>
 
-                    <td className="px-4 py-4 text-right text-sm font-medium text-neutral-800">
+                    <td className="px-4 py-4 text-right text-[12px] font-bold text-neutral-800">
                       ₹{Number(item.total).toLocaleString("en-IN")}
                     </td>
 
@@ -229,16 +229,16 @@ const RequisitionDetails = () => {
             </tbody>
 
             <tfoot>
-              <tr className="border-t-2 border-neutral-500">
+              <tr className="border-t-4 border-neutral-500">
 
                 <td
                   colSpan={5}
-                  className="px-4 py-5 text-right text-sm font-semibold text-neutral-700"
+                  className="px-4 py-5 text-right text-[12px] font-bold text-neutral-700"
                 >
                   Grand Total
                 </td>
 
-                <td className="px-4 py-5 text-right text-base font-bold text-neutral-900">
+                <td className="px-4 py-5 text-right text-[14px] font-bold text-[#281c59]">
                   ₹{grandTotal.toLocaleString("en-IN")}
                 </td>
 

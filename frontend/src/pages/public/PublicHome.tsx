@@ -1,16 +1,16 @@
-import { useRequisitions } from "../../context/RequisitionContext";
-import type { Requisition } from "../../types/requisition";
-import { Eye, Plus } from "lucide-react";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-import useBackendStatus from "../../hooks/useBackendStatus";
+import { useNavigate } from "react-router-dom";
+import { Eye, Plus } from "lucide-react";
+
 import { useAuth } from "../../context/AuthContext";
+import { useRequisitions } from "../../context/RequisitionContext";
 import { embedRequisition } from "../../services/embeddingService";
 import { submitRequisition } from "../../services/requisitionService";
+import type { Requisition } from "../../types/requisition";
+
 const PublicHome = () => {
   const { requisitions, isLoading, error, refreshRequisitions } =
     useRequisitions();
-  const online = useBackendStatus();
   const navigate = useNavigate();
   const { user, isLoading: authLoading } = useAuth();
   const [embeddingId, setEmbeddingId] = useState<number | null>(null);
@@ -20,7 +20,6 @@ const PublicHome = () => {
     try {
       setEmbeddingId(id);
       await embedRequisition(id);
-      // Refresh the requisition list
       window.location.reload();
     } catch (error) {
       console.error("Failed to embed requisition:", error);
@@ -33,7 +32,6 @@ const PublicHome = () => {
     try {
       setSubmittingId(id);
       await submitRequisition(id);
-      // refresh the list from context
       await refreshRequisitions();
     } catch (error) {
       console.error("Failed to submit requisition:", error);
@@ -43,11 +41,39 @@ const PublicHome = () => {
   };
 
   useEffect(() => {
-    // If an admin is logged in and visits the public home, redirect to /admin
     if (!authLoading && user?.role === "ADMIN") {
       navigate("/admin", { replace: true });
     }
   }, [authLoading, user, navigate]);
+
+  const getStatusCellClass = (status: Requisition["status"]) => {
+    switch (status) {
+      case "draft":
+        return "bg-yellow-100";
+      case "submitted":
+        return "bg-cyan-100";
+      case "approved":
+        return "bg-emerald-100";
+      case "rejected":
+        return "bg-rose-100";
+      default:
+        return "bg-neutral-300";
+    }
+  };
+  const getStatusTextClass = (status: Requisition["status"]) => {
+    switch (status) {
+      case "draft":
+        return "text-yellow-700";
+      case "submitted":
+        return "text-cyan-700";
+      case "approved":
+        return "text-emerald-700";
+      case "rejected":
+        return "text-rose-700";
+      default:
+        return "text-neutral-700";
+    }
+  };
   const columns: {
     key: keyof Requisition;
     label: string;
@@ -61,69 +87,55 @@ const PublicHome = () => {
   ];
 
   return (
-    <div className="mx-auto max-w-5xl px-6 py-10">
-      <div className="mb-8 flex items-center justify-between">
+    <div className="app-page">
+      <div className="mb-8 flex items-center justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold">Your Requisitions</h1>
-          <p className="mt-1 text-sm text-gray-500">
-            Requisitions associated with your session.
-          </p>
+          <h1 className="app-title">Your Requisitions</h1>
+          <p className="app-subtitle">Requisitions associated with your session.</p>
         </div>
 
-        <div className="flex items-center gap-4">
-          <div className="h-6 w-px bg-neutral-400" />
-
-          <button
-            type="button"
-            onClick={() => navigate("/requisitions/create")}
-            className="flex items-center gap-2 rounded-lg
-                     bg-neutral-900 px-4 py-2.5
-                     text-sm font-medium text-white
-                     transition hover:bg-neutral-700"
-          >
-            <Plus className="h-4 w-4" />
-            Create Requisition
-          </button>
-        </div>
+        <button
+          type="button"
+          onClick={() => navigate("/requisitions/create")}
+          className="app-button px-4 py-2.5"
+        >
+          <Plus className="h-4 w-4" />
+          Create Requisition
+        </button>
       </div>
 
-      {isLoading && (
-        <p className="text-sm text-gray-500">Loading requisitions...</p>
-      )}
+      {isLoading && <p className="text-[12px] font-bold text-neutral-500">Loading requisitions...</p>}
 
-      {error && <p className="text-sm text-red-600">{error}</p>}
+      {error && <p className="app-error">{error}</p>}
 
       {!isLoading && !error && requisitions.length === 0 && (
-        <div className="flex min-h-[60vh] items-center justify-center">
-          <p className="text-xs font-bold text-neutral-500">{online ? "Awake" : "Sleeping"}</p>
+        <div className="app-panel flex min-h-[40vh] items-center justify-center p-8">
+          <p className="text-[12px] font-bold text-neutral-500">No requisitions found.</p>
         </div>
       )}
 
       {!isLoading && requisitions.length > 0 && (
         <div className="flex gap-4">
-          {/* ID column - lives outside the bordered table, left side */}
           <div className="flex flex-col">
-            {/* spacer to align with header row height */}
             <div className="h-[29px]" />
             {requisitions.map((requisition) => (
               <div
                 key={requisition.id}
-                className="flex h-[52px] items-center text-sm font-semibold text-gray-400"
+                className="flex h-[52px] items-center text-[12px] font-bold text-[#281c59]"
               >
                 #{requisition.id}
               </div>
             ))}
-          </div>{" "}
-          {/* Right side: header (outside) + bordered table (inside) */}
+          </div>
+
           <div className="flex-1">
-            {/* Header table - no borders, sits above the grid */}
             <table className="w-full table-fixed border-collapse">
               <thead>
                 <tr>
                   {columns.map((col) => (
                     <th
                       key={col.key}
-                      className="pb-2 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+                      className="pb-2 text-left text-[12px] font-bold uppercase text-[#281c59]"
                     >
                       {col.label}
                     </th>
@@ -132,38 +144,28 @@ const PublicHome = () => {
               </thead>
             </table>
 
-            {/* Body table - transparent, 4px grid lines, rounded-xl corners */}
-            <div
-              className="overflow-hidden rounded-xl border-[2px]
-             border-neutral-500 bg-transparent"
-            >
+            <div className="app-panel">
               <table className="w-full table-fixed border-collapse">
                 <tbody>
                   {requisitions.map((requisition, rowIndex) => (
                     <tr
                       key={requisition.id}
-                      className={
-                        rowIndex % 2 === 0 ? "bg-neutral-400" : "bg-neutral-300"
-                      }
+                      className={`${rowIndex % 2 === 0 ? "bg-neutral-400" : "bg-neutral-300"} h-[52px]`}
                     >
                       {columns.map((col, colIndex) => {
                         const isLastRow = rowIndex === requisitions.length - 1;
                         const isLastCol = colIndex === columns.length - 1;
-
                         const borderClasses = [
-                          !isLastCol ? "border-r-[2px]" : "",
-                          !isLastRow ? "border-b-[2px]" : "",
+                          !isLastCol ? "border-r-4" : "",
+                          !isLastRow ? "border-b-4" : "",
                           "border-neutral-500",
                         ].join(" ");
 
                         if (col.key === "status") {
                           return (
-                            <td
-                              key={col.key}
-                              className={`px-4 py-3 ${borderClasses}`}
-                            >
+                            <td key={col.key} className={`h-[52px] px-4 py-3 ${getStatusCellClass(requisition.status)} ${borderClasses}`}>
                               {requisition.status === "submitted" ? (
-                                <span className="rounded-full bg-teal-100 px-3 py-1 text-xs font-medium text-teal-800">
+                                <span className={`text-[12px] font-bold ${getStatusTextClass(requisition.status)}`}>
                                   {requisition.status}
                                 </span>
                               ) : (
@@ -171,12 +173,10 @@ const PublicHome = () => {
                                   type="button"
                                   onClick={() => handleSubmit(requisition.id)}
                                   disabled={submittingId === requisition.id}
-                                  className="rounded-full bg-gray-100 px-3 py-1 text-xs font-medium text-gray-700 disabled:cursor-wait disabled:opacity-50"
+                                  className={`text-[12px] font-bold ${getStatusTextClass(requisition.status)} disabled:cursor-wait disabled:opacity-50`}
                                   title={`Submit ${requisition.requisition_no}`}
                                 >
-                                  {submittingId === requisition.id
-                                    ? "Submitting..."
-                                    : requisition.status}
+                                  {submittingId === requisition.id ? "Submitting..." : requisition.status}
                                 </button>
                               )}
                             </td>
@@ -185,24 +185,14 @@ const PublicHome = () => {
 
                         if (col.key === "created_at") {
                           return (
-                            <td
-                              key={col.key}
-                              className={`truncate px-4 py-3 
-                                text-sm text-gray-500 ${borderClasses}`}
-                            >
-                              {new Date(
-                                requisition.created_at,
-                              ).toLocaleDateString()}
+                            <td key={col.key} className={`h-[52px] truncate px-4 py-3 text-[12px] font-bold text-neutral-600 ${borderClasses}`}>
+                              {new Date(requisition.created_at).toLocaleDateString()}
                             </td>
                           );
                         }
 
                         return (
-                          <td
-                            key={col.key}
-                            className={`truncate px-4 py-3 text-sm
-                                 text-gray-600 ${borderClasses}`}
-                          >
+                          <td key={col.key} className={`h-[52px] truncate px-4 py-3 text-[12px] font-bold text-neutral-700 ${borderClasses}`}>
                             {requisition[col.key]}
                           </td>
                         );
@@ -213,38 +203,32 @@ const PublicHome = () => {
               </table>
             </div>
           </div>
-          <div className="flex flex-col">
-            {/* spacer for header */}
-            <div className="h-[29px]" />
 
+          <div className="flex flex-col">
+            <div className="h-[29px]" />
             {requisitions.map((requisition) => (
-                <div key={requisition.id} className="flex h-[52px] items-center gap-3">
+              <div key={requisition.id} className="flex h-[52px] items-center gap-3">
                 <button
                   type="button"
                   onClick={() => navigate(`/requisitions/${requisition.id}`)}
-                  className="rounded-md p-2 text-gray-400 transition hover:bg-gray-100 hover:text-gray-900"
+                  className="rounded-md p-2 text-[#281c59] transition hover:bg-neutral-200"
                   title="View requisition"
                   aria-label={`View ${requisition.requisition_no}`}
                 >
                   <Eye className="h-5 w-5" />
                 </button>
                 {requisition.is_embedded ? (
-                  <span className="text-xs font-semibold text-pink-600">
-                    {"<Embedded/>"}
-                  </span>
+                  <span className="text-[12px] font-bold text-pink-400">{"<Embedded/>"}</span>
                 ) : (
                   <button
                     type="button"
                     onClick={() => handleEmbed(requisition.id)}
                     disabled={embeddingId === requisition.id}
-                    className="text-xs font-medium text-neutral-500 transition hover:text-neutral-900 disabled:cursor-wait disabled:opacity-50"
+                    className="text-[12px] font-bold text-neutral-500 transition hover:text-pink-400 disabled:cursor-wait disabled:opacity-50"
                   >
-                    {embeddingId === requisition.id
-                      ? "Embedding..."
-                      : "Not Embedded"}
+                    {embeddingId === requisition.id ? "Embedding..." : "Not Embedded"}
                   </button>
                 )}
-                {/* status is now clickable in the table cell; no separate submit button here */}
               </div>
             ))}
           </div>
@@ -255,3 +239,9 @@ const PublicHome = () => {
 };
 
 export default PublicHome;
+
+
+
+
+
+
