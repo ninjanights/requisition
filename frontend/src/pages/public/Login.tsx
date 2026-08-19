@@ -53,11 +53,36 @@ const Login = () => {
       <main className="flex flex-1 items-center justify-center bg-neutral-300 px-4 py-6 sm:px-6">
         <div className="flex w-full max-w-md -translate-y-2 flex-col items-center text-center">
           {/** backend status */}
-          <p className="mb-3 text-center text-[12px] font-bold text-neutral-500">
-            {isChecking && "Awakening"}
-            {status === "awake" && "Awake"}
-            {status === "sleeping" && "Sleeping"}
-          </p>
+<div className="mb-5 text-center">
+  {/* Backend status */}
+  <div className="flex items-center justify-center gap-2">
+    <span
+      className={`h-2.5 w-2.5 rounded-full ${
+        isAwake ? "bg-teal-400" : "bg-yellow-400"
+      }`}
+    />
+
+    {/* Vertical divider */}
+    <span className="h-4 w-[1px] bg-neutral-400" />
+
+    <span className="text-[12px] font-bold text-neutral-500">
+      {isChecking && "Awakening"}
+      {status === "awake" && "Awake"}
+      {status === "sleeping" && "Sleeping"}
+    </span>
+  </div>
+
+  {/* Explanation */}
+  <p className="mt-2 text-xs font-bold text-neutral-600">
+    This demo runs on a free-tier server, so it may take a few moments
+    to wake up.
+  </p>
+
+  <p className="mt-0.5 text-xs font-semibold text-neutral-500">
+    Thanks for your patience
+  </p>
+</div>
+
           <h1 className="mb-3 text-3xl font-black leading-none text-neutral-900 sm:text-5xl">
             {"{Requisition}"}
           </h1>
@@ -140,6 +165,3 @@ const Login = () => {
 };
 
 export default Login;
-
-
-

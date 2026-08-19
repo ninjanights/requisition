@@ -5,7 +5,9 @@ const Footer = () => {
 
   return (
     <footer className="w-full bg-transparent">
-      <div className="mx-auto flex max-w-7xl items-center justify-between gap-4 px-6 py-3 text-[12px] font-bold text-neutral-600">
+      <div className="mx-auto flex max-w-7xl items-center
+       justify-center gap-4 px-6 py-3 text-[12px] 
+       font-bold text-neutral-600">
         <div className="min-w-0 flex-1 truncate text-center sm:text-left">
           {"{"}
           <span>github:</span>
@@ -27,8 +29,8 @@ const Footer = () => {
           </span>
           <span
             className={`inline-block h-2.5 w-2.5 rounded-full ${
-              isAwake ? "bg-pink-400" : "bg-[#F7DFC2]"
-            } animate-breathe`}
+              isAwake ? "bg-teal-400" : "bg-yellow-400"
+            } `}
           />
         </div>
       </div>
