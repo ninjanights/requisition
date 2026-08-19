@@ -12,10 +12,7 @@ import {
   logout as logoutRequest,
 } from "../services/authService";
 
-import type {
-  User,
-  LoginRequest,
-} from "../types/auth";
+import type { User, LoginRequest } from "../types/auth";
 
 interface AuthContextType {
   user: User | null;
@@ -27,16 +24,13 @@ interface AuthContextType {
   refreshUser: () => Promise<void>;
 }
 
-const AuthContext =
-  createContext<AuthContextType | undefined>(undefined);
+const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 interface AuthProviderProps {
   children: ReactNode;
 }
 
-export const AuthProvider = ({
-  children,
-}: AuthProviderProps) => {
+export const AuthProvider = ({ children }: AuthProviderProps) => {
   const [user, setUser] = useState<User | null>(null);
 
   const [isLoading, setIsLoading] = useState(true);
@@ -56,19 +50,13 @@ export const AuthProvider = ({
     try {
       const response = await getMe();
 
-      if (
-        response.authenticated &&
-        response.user
-      ) {
+      if (response.authenticated && response.user) {
         setUser(response.user);
       } else {
         setUser(null);
       }
     } catch (error) {
-      console.error(
-        "Failed to restore authentication",
-        error
-      );
+      console.error("Failed to restore authentication", error);
 
       setUser(null);
     }
@@ -96,17 +84,11 @@ export const AuthProvider = ({
    *
    * Backend sets the access_token cookie.
    */
-  const login = async (
-    credentials: LoginRequest
-  ) => {
-    const response = await loginRequest(
-      credentials
-    );
+  const login = async (credentials: LoginRequest) => {
+    const response = await loginRequest(credentials);
 
     if (response.role !== "ADMIN") {
-      throw new Error(
-        "Administrator access required"
-      );
+      throw new Error("Administrator access required");
     }
 
     /*
@@ -153,9 +135,7 @@ export const useAuth = () => {
   const context = useContext(AuthContext);
 
   if (!context) {
-    throw new Error(
-      "useAuth must be used inside AuthProvider"
-    );
+    throw new Error("useAuth must be used inside AuthProvider");
   }
 
   return context;

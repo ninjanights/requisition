@@ -31,7 +31,7 @@ const PublicNavbar = () => {
         {/* Navigation */}
         <div className="flex items-center gap-6">
           <NavLink
-            to="/"
+            to="/home"
             className={({ isActive }) =>
               isActive
                 ? "text-black text-[12px] font-bold"

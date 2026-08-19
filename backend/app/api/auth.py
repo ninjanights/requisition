@@ -12,6 +12,7 @@ from app.db.database import get_db
 from app.db.models import User
 from app.schemas.auth import LoginRequest
 from app.core.session import get_current_session_user
+
 router = APIRouter(
     prefix="/api/auth",
     tags=["Authentication"],

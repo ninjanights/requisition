@@ -17,7 +17,6 @@ from app.core.config import settings
 SESSION_COOKIE_NAME = "requisition_session"
 SESSION_DURATION = timedelta(hours=24)
 
-
 def get_or_create_session_user(
     response: Response,
     session_id: str | None = Cookie(
@@ -72,7 +71,8 @@ def get_or_create_session_user(
         max_age=int(SESSION_DURATION.total_seconds()),
         httponly=True,
         samesite="none",
-        secure=settings.ENVIRONMENT == "production" # Change to True when using HTTPS in production
+        secure=settings.ENVIRONMENT
+        == "production",  # Change to True when using HTTPS in production
     )
 
     return user
@@ -101,6 +101,7 @@ def refresh_session(
         secure=settings.ENVIRONMENT == "production",  # True in production over HTTPS
     )
 
+
 """
 POST /api/requisitions
         |
@@ -117,41 +118,69 @@ db.commit()
 cookie gets another 24 hours
 """
 
+
 # get current session user | .../me
 def get_current_session_user(
+    response: Response,
     session_id: str | None = Cookie(
         default=None,
         alias=SESSION_COOKIE_NAME,
     ),
     db: Session = Depends(get_db),
-) -> User | None:
+) -> User:
     """
-    Identify an existing public browser session.
+    Identify the current PUBLIC browser session.
 
-    Does NOT create a new user or session.
+    If a valid session exists:
+        -> return that user
+
+    If no valid session exists:
+        -> create a new PUBLIC user
+        -> create a new session
+        -> send the session cookie
+        -> return the new user
     """
-
-    if not session_id:
-        return None
 
     now = datetime.now(timezone.utc)
 
-    user = (
-        db.query(User)
-        .filter(
-            User.session_id == session_id,
-            User.role == "PUBLIC",
+    # 1. Existing valid session -------------------------------------------------
+
+    if session_id:
+        user = (
+            db.query(User)
+            .filter(
+                User.session_id == session_id,
+                User.role == "PUBLIC",
+            )
+            .first()
         )
-        .first()
+
+        if user and user.session_expires_at and user.session_expires_at > now:
+            return user
+
+    # 2. No valid session -> create one -------------------------------------------------
+
+    new_session_id = uuid4().hex
+
+    user = User(
+        role="PUBLIC",
+        session_id=new_session_id,
+        session_expires_at=now + SESSION_DURATION,
     )
 
-    if not user:
-        return None
+    db.add(user)
+    db.commit()
+    db.refresh(user)
 
-    if not user.session_expires_at:
-        return None
+    # 3. Send cookie to browser -----------------------------------------------
 
-    if user.session_expires_at <= now:
-        return None
+    response.set_cookie(
+        key=SESSION_COOKIE_NAME,
+        value=new_session_id,
+        max_age=int(SESSION_DURATION.total_seconds()),
+        httponly=True,
+        samesite="none",
+        secure=settings.ENVIRONMENT == "production",
+    )
 
     return user

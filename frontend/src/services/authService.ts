@@ -37,7 +37,7 @@ export const getMe = async (): Promise<MeResponse> => {
   const response = await api.get<MeResponse>(
     "/auth/me",
   );
-console.log(response);
+console.log(response, "me ------");
   return response.data;
 };
 
