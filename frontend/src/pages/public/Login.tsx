@@ -7,8 +7,7 @@ import useBackendStatus from "../../hooks/useBackendStatus";
 const Login = () => {
   const navigate = useNavigate();
 
-  const { login } = useAuth();
-  const { user, isLoading: authLoading } = useAuth();
+  const { user, isLoading: authLoading, login } = useAuth();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -40,7 +39,7 @@ const Login = () => {
     navigate("/home");
   };
 
-  const online = useBackendStatus();
+  const { status, isAwake, isChecking } = useBackendStatus();
 
   useEffect(() => {
     if (!authLoading && user?.role === "ADMIN") {
@@ -54,8 +53,10 @@ const Login = () => {
       <main className="flex flex-1 items-center justify-center bg-neutral-300 px-4 py-6 sm:px-6">
         <div className="flex w-full max-w-md -translate-y-2 flex-col items-center text-center">
           {/** backend status */}
-          <p className="mb-3 text-xs font-bold text-neutral-500 text-center">
-            {online ? "Awake" : "Sleeping"}
+          <p className="mb-3 text-center text-xs font-bold text-neutral-500">
+            {status === "checking" && "Awakening"}
+            {status === "awake" && "Awake"}
+            {status === "sleeping" && "Sleeping"}
           </p>
           <h1 className="mb-3 text-3xl font-black leading-none text-neutral-900 sm:text-5xl">
             {"{Requisition}"}
@@ -105,11 +106,13 @@ const Login = () => {
               />
             </div>
 
-            {error && <p className="text-[10px] font-bold text-red-600">{error}</p>}
+            {error && (
+              <p className="text-[10px] font-bold text-red-600">{error}</p>
+            )}
 
             <button
               type="submit"
-              disabled={isLoading}
+              disabled={isLoading || !isAwake}
               className="bg-neutral-500 w-full max-w-md rounded-xl px-6 py-5 text-center
                text-lg font-bold text-neutral-300"
             >
@@ -120,14 +123,13 @@ const Login = () => {
           <div className=" h-px w-full bg-neutral-300" />
           <div className="mt-6 h-px w-full max-w-md bg-neutral-400"></div>
 
-        
-
           <p className="mt-2 text-[10px] font-bold text-neutral-500">
             Not an Admin? Come on in!
           </p>
 
           <button
             type="button"
+            disabled={isLoading || !isAwake}
             onClick={handlePublicWelcome}
             className=" bg-[#281C59] mt-4 w-full max-w-md rounded-xl px-6 py-5 text-center text-lg font-bold text-neutral-300"
           >

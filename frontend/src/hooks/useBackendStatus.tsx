@@ -1,38 +1,48 @@
 import { useEffect, useState } from "react";
 import { getBackendStatus } from "../services/backendService";
 
+export type BackendStatus = "checking" | "awake" | "sleeping";
+
 export function useBackendStatus() {
-  const [online, setOnline] = useState(false);
+  const [status, setStatus] =
+    useState<BackendStatus>("checking");
 
   useEffect(() => {
     let mounted = true;
     let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
-    async function check() {
+    const check = async () => {
       try {
         await getBackendStatus();
-        if (mounted) {
-          setOnline(true);
-        }
+
+        if (!mounted) return;
+
+        setStatus("awake");
       } catch {
-        if (mounted) {
-          setOnline(false);
-          timeoutId = setTimeout(check, 5000);
-        }
+        if (!mounted) return;
+
+        setStatus("sleeping");
+
+        timeoutId = setTimeout(check, 5000);
       }
-    }
+    };
 
     check();
 
     return () => {
       mounted = false;
+
       if (timeoutId) {
         clearTimeout(timeoutId);
       }
     };
   }, []);
 
-  return online;
+  return {
+    status,
+    isAwake: status === "awake",
+    isChecking: status === "checking",
+  };
 }
 
 export default useBackendStatus;

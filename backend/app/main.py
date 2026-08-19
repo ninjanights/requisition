@@ -33,7 +33,7 @@ app.include_router(embeddings_router)
 app.include_router(questions_router)
 
 
-@app.get("/health")
+@app.get("/api/health")
 def health_check():
     with engine.connect() as connection:
         result = connection.execute(text("SELECT 1"))
