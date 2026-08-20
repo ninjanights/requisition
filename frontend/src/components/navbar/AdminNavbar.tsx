@@ -20,8 +20,8 @@ const AdminNavbar = () => {
     <header className="bg-transparent">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <div className="flex min-w-0 items-center gap-4">
-          <NavLink to="/admin" className="shrink-0 text-[12px] font-black text-neutral-900">
-            {"{admin:requisition}"}
+          <NavLink to="/admin" className="shrink-0 text-[16px] font-black text-neutral-900">
+            {"{Admin:Requisition}"}
           </NavLink>
 
           <div className="h-6 w-px shrink-0 bg-neutral-400" />

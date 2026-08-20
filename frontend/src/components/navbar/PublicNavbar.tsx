@@ -1,5 +1,11 @@
 import { NavLink } from "react-router-dom";
-import { Home as HomeIcon, MessageSquareCode, Upload, ArrowLeft } from "lucide-react";
+import {
+  Home as HomeIcon,
+  MessageSquareCode,
+  Upload,
+  ArrowLeft,
+} from "lucide-react";
+import { useAuth } from "../../context/AuthContext";
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `text-[12px] font-bold transition ${
@@ -7,11 +13,15 @@ const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   }`;
 
 const PublicNavbar = () => {
+  const { user } = useAuth();
   return (
     <header className="bg-transparent">
       <nav className="mx-auto flex h-16 max-w-7xl items-center justify-between px-6">
         <div className="flex min-w-0 items-center gap-4">
-          <NavLink to="/" className="shrink-0 text-[12px] font-black text-neutral-900">
+          <NavLink
+            to="/"
+            className="shrink-0 text-[16px] font-black text-neutral-900"
+          >
             {"{Public:Requisition}"}
           </NavLink>
 
@@ -48,7 +58,15 @@ const PublicNavbar = () => {
             </NavLink>
           </div>
 
-          <div className="border-l border-neutral-500 pl-6">
+          <div
+            className="max-w-40 truncate border-l flex align-middle
+           items-center gap-2
+             border-neutral-500 pl-4 text-[12px] font-bold
+              text-neutral-500"
+          >
+            <div>
+              <span>{user?.id}</span>
+            </div>
             <NavLink to="/login" className={navLinkClass}>
               <span className="flex items-center gap-2">
                 <ArrowLeft className="h-3 w-3" />

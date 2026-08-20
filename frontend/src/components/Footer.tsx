@@ -5,33 +5,54 @@ const Footer = () => {
 
   return (
     <footer className="w-full bg-transparent">
-      <div className="mx-auto flex max-w-7xl items-center
-       justify-center gap-4 px-6 py-3 text-[12px] 
-       font-bold text-neutral-600">
-        <div className="min-w-0 flex-1 truncate text-center sm:text-left">
-          {"{"}
-          <span>github:</span>
+      <div
+        className="
+          mx-auto flex max-w-7xl items-center justify-center
+          gap-3 px-6 py-3 text-[10px] font-semibold text-neutral-600
+        "
+      >
+        {/* Source Code */}
+        <div className="flex items-center">
+          <span>Source code</span>
+          <span className="mx-1.5 text-neutral-400">·</span>
+
           <a
             href="https://github.com/ninjanights/requisition"
             target="_blank"
             rel="noopener noreferrer"
-            className="mx-1 text-[#281c59] hover:underline"
+            className=" hover:underline"
           >
             github/ninjanights/requisition
           </a>
-          , v:1.0.0
-          {"}"}
         </div>
 
-        <div className="hidden shrink-0 items-center gap-2 sm:inline-flex">
-          <span className="text-[12px] font-bold text-neutral-500">
-            Backend: {isAwake ? "Awake" : "Sleeping"}
+        {/* Vertical separator */}
+        <span className="h-4 w-px bg-neutral-400" />
+
+        {/* Version */}
+        <div className="flex items-center">
+          <span>Version</span>
+          <span className="mx-1.5 text-neutral-400">·</span>
+          <span>1.0.0</span>
+        </div>
+
+        {/* Vertical separator */}
+        <span className="h-4 w-px bg-neutral-400" />
+
+        {/* Server */}
+        <div className="flex items-center">
+          <span>Server</span>
+          <span className="mx-1.5 text-neutral-400">·</span>
+
+          <span className="flex items-center gap-1.5">
+            <span>{isAwake ? "Awake" : "Sleeping"}</span>
+
+            <span
+              className={`block h-2 w-2 shrink-0 translate-y-[1px] rounded-full ${
+                isAwake ? "bg-teal-400" : "bg-yellow-400"
+              }`}
+            />
           </span>
-          <span
-            className={`inline-block h-2.5 w-2.5 rounded-full ${
-              isAwake ? "bg-teal-400" : "bg-yellow-400"
-            } `}
-          />
         </div>
       </div>
     </footer>
@@ -39,5 +60,3 @@ const Footer = () => {
 };
 
 export default Footer;
-
-

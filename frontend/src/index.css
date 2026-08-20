@@ -3,7 +3,7 @@
 :root {
   --app-accent: #281c59;
   --app-bg: #d4d4d8;
-  --app-border: #737373;
+  --app-border: hsl(0, 0%, 50%);
   --app-muted: #525252;
   --app-text: #171717;
 }

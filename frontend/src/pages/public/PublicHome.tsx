@@ -145,12 +145,12 @@ const PublicHome = () => {
             </table>
 
             <div className="app-panel">
-              <table className="w-full table-fixed border-collapse">
+              <table className="w-full table-fixed border-collapse ">
                 <tbody>
                   {requisitions.map((requisition, rowIndex) => (
                     <tr
                       key={requisition.id}
-                      className={`${rowIndex % 2 === 0 ? "bg-neutral-400" : "bg-neutral-300"} h-[52px]`}
+                      className={`${rowIndex % 2 === 0 ? "bg-[hsl(0,0%,75%)]" : "bg-neutral-300"} h-[52px]`}
                     >
                       {columns.map((col, colIndex) => {
                         const isLastRow = rowIndex === requisitions.length - 1;

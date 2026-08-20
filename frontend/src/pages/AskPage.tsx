@@ -88,11 +88,11 @@ const AskPage = () => {
             {source && (
               <span
                 className={`
-                  rounded-full px-3 py-1 text-[12px] font-bold
+                  px-3 py-1 text-[18px] font-semibold
                   ${
                     source === "RAG"
-                      ? "bg-pink-100 text-pink-600"
-                      : "bg-blue-100 text-blue-600"
+                      ? " text-pink-400"
+                      : " text-teal-400"
                   }
                 `}
               >
