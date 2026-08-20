@@ -48,7 +48,7 @@ const Footer = () => {
             <span>{isAwake ? "Awake" : "Sleeping"}</span>
 
             <span
-              className={`block h-2 w-2 shrink-0 translate-y-[1px] rounded-full ${
+              className={`block h-2 w-2 animate-breathe shrink-0 translate-y-[1px] rounded-full ${
                 isAwake ? "bg-teal-400" : "bg-yellow-400"
               }`}
             />

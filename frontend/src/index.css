@@ -146,3 +146,20 @@ body {
   font-size: 10px;
   font-weight: 800;
 }
+
+
+
+@keyframes breathe {
+  0%,
+  100% {
+    transform: scale(0.8);
+  }
+
+  50% {
+    transform: scale(1.25);
+  }
+}
+
+.animate-breathe {
+  animation: breathe 3.0s ease-in-out infinite;
+}

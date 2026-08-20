@@ -57,7 +57,7 @@ const Login = () => {
   {/* Backend status */}
   <div className="flex items-center justify-center gap-2">
     <span
-      className={`h-2.5 w-2.5 rounded-full ${
+      className={`h-2.5 w-2.5 rounded-full animate-breathe ${
         isAwake ? "bg-teal-400" : "bg-yellow-400"
       }`}
     />
