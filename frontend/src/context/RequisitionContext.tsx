@@ -45,6 +45,7 @@ export const RequisitionProvider = ({ children }: RequisitionProviderProps) => {
       setError(null);
 
       const data = await getMyRequisitions();
+      console.log(data, "1212");
       setRequisitions(data);
     } catch (error: any) {
       const status = error?.response?.status;

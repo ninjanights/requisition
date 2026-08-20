@@ -12,29 +12,15 @@ const AdminHome = () => {
     useRequisitions();
   const [isEmbeddingAll, setIsEmbeddingAll] = useState(false);
   const navigate = useNavigate();
-  const getStatusCellClass = (status: Requisition["status"]) => {
-    switch (status) {
-      case "draft":
-        return "bg-yellow-100";
-      case "submitted":
-        return "bg-cyan-100";
-      case "approved":
-        return "bg-emerald-100";
-      case "rejected":
-        return "bg-rose-100";
-      default:
-        return "bg-neutral-300";
-    }
-  };
   const getStatusTextClass = (status: Requisition["status"]) => {
     switch (status) {
-      case "draft":
-        return "text-yellow-700";
-      case "submitted":
+      case "Draft":
+        return "text-orange-600";
+      case "Submitted":
         return "text-cyan-700";
-      case "approved":
+      case "Approved":
         return "text-emerald-700";
-      case "rejected":
+      case "Rejected":
         return "text-rose-700";
       default:
         return "text-neutral-700";
@@ -138,7 +124,7 @@ const AdminHome = () => {
             {requisitions.map((requisition) => (
               <div
                 key={requisition.id}
-                className="flex h-[52px] items-center text-[12px] font-bold text-[#281c59]"
+                className="flex h-[52px] items-center text-[14px] font-semibold text-[#281c59]"
               >
                 #{requisition.id}
               </div>
@@ -173,16 +159,16 @@ const AdminHome = () => {
                         const isLastRow = rowIndex === requisitions.length - 1;
                         const isLastCol = colIndex === columns.length - 1;
                         const borderClasses = [
-                          !isLastCol ? "border-r-4" : "",
-                          !isLastRow ? "border-b-4" : "",
-                          "border-neutral-500",
+                          !isLastCol ? "border-r-2" : "",
+                          !isLastRow ? "border-b-2" : "",
+                          "border-neutral-800",
                         ].join(" ");
 
                         if (col.key === "status") {
                           return (
-                            <td key={col.key} className={`h-[52px] px-4 py-3 ${getStatusCellClass(requisition.status)} ${borderClasses}`}>
-                              {requisition.status === "submitted" ? (
-                                <span className={`text-[12px] font-bold ${getStatusTextClass(requisition.status)}`}>
+                            <td key={col.key} className={`h-[52px] px-4 py-3 ${borderClasses}`}>
+                              {requisition.status === "Submitted" ? (
+                                <span className={`text-[14px] font-semibold ${getStatusTextClass(requisition.status)}`}>
                                   {requisition.status}
                                 </span>
                               ) : (
@@ -190,7 +176,7 @@ const AdminHome = () => {
                                   type="button"
                                   onClick={() => handleSubmit(requisition.id)}
                                   disabled={submittingId === requisition.id}
-                                  className={`text-[12px] font-bold ${getStatusTextClass(requisition.status)} disabled:cursor-wait disabled:opacity-50`}
+                                  className={`text-[14px] font-semibold ${getStatusTextClass(requisition.status)} disabled:cursor-wait disabled:opacity-50`}
                                 >
                                   {submittingId === requisition.id ? "Submitting..." : requisition.status}
                                 </button>
@@ -201,14 +187,14 @@ const AdminHome = () => {
 
                         if (col.key === "created_at") {
                           return (
-                            <td key={col.key} className={`h-[52px] truncate px-4 py-3 text-[12px] font-bold text-neutral-600 ${borderClasses}`}>
+                            <td key={col.key} className={`h-[52px] truncate px-4 py-3 text-[14px] font-semibold text-neutral-600 ${borderClasses}`}>
                               {new Date(requisition.created_at).toLocaleDateString()}
                             </td>
                           );
                         }
 
                         return (
-                          <td key={col.key} className={`h-[52px] truncate px-4 py-3 text-[12px] font-bold text-neutral-700 ${borderClasses}`}>
+                          <td key={col.key} className={`h-[52px] truncate px-4 py-3 text-[14px] font-semibold text-neutral-700 ${borderClasses}`}>
                             {requisition[col.key]}
                           </td>
                         );
@@ -255,6 +241,11 @@ const AdminHome = () => {
 };
 
 export default AdminHome;
+
+
+
+
+
 
 
 

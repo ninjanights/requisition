@@ -3,7 +3,7 @@
 :root {
   --app-accent: #281c59;
   --app-bg: #d4d4d8;
-  --app-border: hsl(0, 0%, 50%);
+  --app-border: #262626;
   --app-muted: #525252;
   --app-text: #171717;
 }
@@ -74,14 +74,14 @@ body {
 
 .app-panel {
   overflow: hidden;
-  border: 4px solid var(--app-border);
+  border: 2px solid var(--app-border);
   border-radius: 12px;
   background: transparent;
 }
 
 .app-input {
   width: 100%;
-  border: 4px solid var(--app-border);
+  border: 2px solid var(--app-border);
   border-radius: 10px;
   background: transparent;
   color: var(--app-text);
@@ -96,6 +96,34 @@ body {
   font-weight: 800;
 }
 
+
+.app-input[type="number"] {
+  appearance: textfield;
+  -moz-appearance: textfield;
+}
+
+.app-input[type="number"]::-webkit-inner-spin-button,
+.app-input[type="number"]::-webkit-outer-spin-button {
+  appearance: none;
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+.app-transparent-scrollbar {
+  scrollbar-color: var(--app-border) transparent;
+}
+
+.app-transparent-scrollbar::-webkit-scrollbar {
+  background: transparent;
+}
+
+.app-transparent-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.app-transparent-scrollbar::-webkit-scrollbar-corner {
+  background: transparent;
+}
 .app-input:focus {
   border-color: var(--app-accent);
   box-shadow: 0 0 0 1px var(--app-accent);
@@ -128,7 +156,7 @@ body {
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
-  border: 4px solid var(--app-accent);
+  border: 2px solid var(--app-accent);
   border-radius: 10px;
   color: var(--app-accent);
   font-size: 12px;
@@ -163,3 +191,9 @@ body {
 .animate-breathe {
   animation: breathe 3.0s ease-in-out infinite;
 }
+
+
+
+
+
+

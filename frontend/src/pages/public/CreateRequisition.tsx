@@ -205,7 +205,7 @@ const CreateRequisition = () => {
         <div className="app-panel mb-8">
           <div className="grid grid-cols-2">
             {/* Project */}
-            <div className="border-r-4 border-neutral-500 p-5">
+            <div className="border-r-2 border-neutral-800 p-5">
               <label
                 htmlFor="project"
                 className="text-[12px] font-bold uppercase text-neutral-500"
@@ -280,7 +280,7 @@ const CreateRequisition = () => {
         <div className="app-panel">
           <table className="w-full table-fixed border-collapse">
             <thead>
-              <tr className="border-b-4 border-neutral-500">
+              <tr className="border-b-2 border-neutral-800">
                 <th className="w-10 px-4 py-4 text-left text-[12px] font-bold uppercase text-neutral-500">
                   #
                 </th>
@@ -316,7 +316,7 @@ const CreateRequisition = () => {
                 return (
                   <tr
                     key={index}
-                    className={!isLast ? "border-b-4 border-neutral-500" : ""}
+                    className={!isLast ? "border-b-2 border-neutral-800" : ""}
                   >
                     {/* Number */}
                     <td className="px-4 py-4 text-[12px] font-bold text-neutral-500">
@@ -437,7 +437,7 @@ const CreateRequisition = () => {
 
             {/* Grand total */}
             <tfoot>
-              <tr className="border-t-4 border-neutral-500">
+              <tr className="border-t-2 border-neutral-800">
                 <td
                   colSpan={5}
                   className="px-4 py-5 text-right text-[12px] font-bold text-neutral-700"
@@ -475,4 +475,6 @@ const CreateRequisition = () => {
 };
 
 export default CreateRequisition;
+
+
 

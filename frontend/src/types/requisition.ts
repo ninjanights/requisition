@@ -1,4 +1,4 @@
-export type RequisitionStatus = "draft" | "submitted" | "approved" | "rejected";
+export type RequisitionStatus = "Draft" | "Submitted" | "Approved" | "Rejected";
 
 export interface Requisition {
   id: number;
@@ -27,7 +27,7 @@ export interface RequisitionDetails {
   requestedBy: number;
   department: string;
   status: RequisitionStatus;
-  createdAt: string;
+  createdDate: string;
   items: RequisitionItem[];
 }
 export interface EmbedAllRequisitionsResponse {
@@ -53,3 +53,4 @@ export interface EmbedRequisitionResponse {
   requisition_id: number;
   embedded: boolean;
 }
+

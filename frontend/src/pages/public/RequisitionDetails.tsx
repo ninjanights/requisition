@@ -3,6 +3,16 @@ import { ArrowLeft } from "lucide-react";
 
 import { useRequisition } from "../../hooks/useRequisition";
 
+const formatDateTime = (value: string) => {
+  const date = new Date(value);
+
+  if (Number.isNaN(date.getTime())) {
+    return "-";
+  }
+
+  return date.toLocaleString();
+};
+
 const RequisitionDetails = () => {
   const { id } = useParams();
 
@@ -87,7 +97,7 @@ const RequisitionDetails = () => {
         <div className="grid grid-cols-2">
 
           {/* Project */}
-          <div className="border-b-4 border-r-4 border-neutral-500 p-5">
+          <div className="border-b-2 border-r-2 border-neutral-800 p-5">
             <p className="text-[12px] font-bold uppercase text-neutral-500">
               Project
             </p>
@@ -98,7 +108,7 @@ const RequisitionDetails = () => {
           </div>
 
           {/* Department */}
-          <div className="border-b-4 border-neutral-500 p-5">
+          <div className="border-b-2 border-neutral-800 p-5">
             <p className="text-[12px] font-bold uppercase text-neutral-500">
               Department
             </p>
@@ -109,7 +119,7 @@ const RequisitionDetails = () => {
           </div>
 
           {/* Requested By */}
-          <div className="border-r-4 border-neutral-500 p-5">
+          <div className="border-r-2 border-neutral-800 p-5">
             <p className="text-[12px] font-bold uppercase text-neutral-500">
               Requested By
             </p>
@@ -126,9 +136,7 @@ const RequisitionDetails = () => {
             </p>
 
             <p className="mt-2 text-[12px] font-bold text-neutral-800">
-              {new Date(
-                requisition.createdAt,
-              ).toLocaleString()}
+              {formatDateTime(requisition.createdDate)}
             </p>
           </div>
 
@@ -153,7 +161,7 @@ const RequisitionDetails = () => {
           <table className="w-full table-fixed border-collapse">
 
             <thead>
-              <tr className="border-b-4 border-neutral-500">
+              <tr className="border-b-2 border-neutral-800">
 
                 <th className="w-12 px-4 py-4 text-left text-[12px] font-bold uppercase text-neutral-500">
                   #
@@ -194,7 +202,7 @@ const RequisitionDetails = () => {
                     key={index}
                     className={
                       !isLast
-                        ? "border-b-4 border-neutral-500"
+                        ? "border-b-2 border-neutral-800"
                         : ""
                     }
                   >
@@ -229,7 +237,7 @@ const RequisitionDetails = () => {
             </tbody>
 
             <tfoot>
-              <tr className="border-t-4 border-neutral-500">
+              <tr className="border-t-2 border-neutral-800">
 
                 <td
                   colSpan={5}
@@ -256,3 +264,7 @@ const RequisitionDetails = () => {
 };
 
 export default RequisitionDetails;
+
+
+
+

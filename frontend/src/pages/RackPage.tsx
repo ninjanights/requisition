@@ -46,7 +46,7 @@ Department: IT
 10 Dell laptops - ₹75000 each
 5 wireless keyboards - ₹1500 each
 20 monitors - ₹12000 each`}
-        className="app-input mt-6 min-h-[300px] p-4"
+        className="app-input app-transparent-scrollbar mt-6 min-h-[300px] p-4"
       />
 
       {error && (
@@ -66,4 +66,5 @@ Department: IT
 };
 
 export default RackPage;
+
 
