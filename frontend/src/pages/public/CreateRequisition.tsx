@@ -447,7 +447,7 @@ const CreateRequisition = () => {
 
                 <td
                   colSpan={2}
-                  className="px-4 py-5 text-right text-[14px] font-bold text-[#574964]"
+                  className="px-4 py-5 text-right text-[14px] font-bold text-[#120078]"
                 >
                   ₹{grandTotal.toLocaleString("en-IN")}
                 </td>

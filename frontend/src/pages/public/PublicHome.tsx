@@ -71,9 +71,9 @@ const PublicHome = () => {
   const getStatusDotClass = (status: Requisition["status"]) => {
     switch (status) {
        case "Draft":
-        return "bg-[#D8C9A7]";
+        return "bg-[#F2F013]";
       case "Submitted":
-        return "bg-[#9F8383]";
+        return "bg-[#2FDD92]";
       case "Approved":
         return "bg-emerald-300";
       case "Rejected":
@@ -129,7 +129,7 @@ const PublicHome = () => {
             {requisitions.map((requisition) => (
               <div
                 key={requisition.id}
-                className="flex h-[52px] items-center text-[14px] font-semibold text-[#574964]"
+                className="flex h-[52px] items-center text-[14px] font-semibold text-[#120078]"
               >
                 #{requisition.id}
               </div>
@@ -143,7 +143,7 @@ const PublicHome = () => {
                   {columns.map((col) => (
                     <th
                       key={col.key}
-                      className="pb-2 text-left text-[12px] font-bold uppercase text-[#574964]"
+                      className="pb-2 text-left text-[12px] font-bold uppercase text-[#120078]"
                     >
                       {col.label}
                     </th>
@@ -158,7 +158,7 @@ const PublicHome = () => {
                   {requisitions.map((requisition, rowIndex) => (
                     <tr
                       key={requisition.id}
-                      className={`${rowIndex % 2 === 0 ? "bg-[hsl(0,0%,75%)]" : "bg-neutral-300"} h-[52px]`}
+                      className={`${rowIndex % 2 === 0 ? "bg-neutral-200/70" : "bg-[#eeeeee]/70"} h-[52px]`}
                     >
                       {columns.map((col, colIndex) => {
                         const isLastRow = rowIndex === requisitions.length - 1;
@@ -229,20 +229,20 @@ const PublicHome = () => {
                 <button
                   type="button"
                   onClick={() => navigate(`/requisitions/${requisition.id}`)}
-                  className="rounded-md p-2 text-[#574964] transition hover:bg-neutral-200"
+                  className="rounded-md p-2 text-[#120078] transition hover:bg-neutral-200"
                   title="View requisition"
                   aria-label={`View ${requisition.requisition_no}`}
                 >
                   <Eye className="h-5 w-5" />
                 </button>
                 {requisition.is_embedded ? (
-                  <span className="text-[12px] font-bold text-[#574964]">{"<Embedded/>"}</span>
+                  <span className="text-[12px] font-bold text-[#120078]">{"<Embedded/>"}</span>
                 ) : (
                   <button
                     type="button"
                     onClick={() => handleEmbed(requisition.id)}
                     disabled={embeddingId === requisition.id}
-                    className="text-[12px] font-bold text-neutral-500 transition hover:text-[#574964] disabled:cursor-wait disabled:opacity-50"
+                    className="text-[12px] font-bold text-neutral-500 transition hover:text-[#120078] disabled:cursor-wait disabled:opacity-50"
                   >
                     {embeddingId === requisition.id ? "Embedding..." : "Not Embedded"}
                   </button>
@@ -259,7 +259,7 @@ const PublicHome = () => {
             type="button"
             onClick={() => setPage(Math.max(1, page - 1))}
             disabled={page === 1}
-            className="text-[#574964] disabled:cursor-not-allowed disabled:opacity-40"
+            className="text-[#120078] disabled:cursor-not-allowed disabled:opacity-40"
             aria-label="Previous page"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -273,7 +273,7 @@ const PublicHome = () => {
             type="button"
             onClick={() => setPage(Math.min(totalPages, page + 1))}
             disabled={page === totalPages}
-            className="text-[#574964] disabled:cursor-not-allowed disabled:opacity-40"
+            className="text-[#120078] disabled:cursor-not-allowed disabled:opacity-40"
             aria-label="Next page"
           >
             <ArrowRight className="h-4 w-4" />

@@ -4,7 +4,7 @@ import { useAuth } from "../../context/AuthContext";
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `text-[12px] font-bold transition ${
-    isActive ? "text-[#574964]" : "text-neutral-500 hover:text-[#574964]"
+    isActive ? "text-[#120078]" : "text-neutral-500 hover:text-[#120078]"
   }`;
 
 const AdminNavbar = () => {
