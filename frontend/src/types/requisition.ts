@@ -8,8 +8,16 @@ export interface Requisition {
   department: string;
   status: RequisitionStatus;
   is_embedded: boolean;
-
   created_at: string;
+}
+
+
+export interface RequisitionPaginatedResponse {
+  items: Requisition[];
+  page: number;
+  page_size: number;
+  total: number;
+  total_pages: number;
 }
 
 export interface RequisitionItem {

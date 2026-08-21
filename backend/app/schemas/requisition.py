@@ -149,3 +149,12 @@ class RequisitionListResponse(BaseModel):
     is_embedded: bool
 
     model_config = ConfigDict(from_attributes=True)
+
+
+# adding pagination to list
+class RequisitionPaginatedResponse(BaseModel):
+    items: list[RequisitionListResponse]
+    page: int
+    page_size: int
+    total: int
+    total_pages: int

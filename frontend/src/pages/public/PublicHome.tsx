@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Eye, Plus } from "lucide-react";
+import { ArrowLeft, ArrowRight, Eye, Plus } from "lucide-react";
 
 import { useAuth } from "../../context/AuthContext";
 import { useRequisitions } from "../../context/RequisitionContext";
@@ -9,8 +9,15 @@ import { submitRequisition } from "../../services/requisitionService";
 import type { Requisition } from "../../types/requisition";
 
 const PublicHome = () => {
-  const { requisitions, isLoading, error, refreshRequisitions } =
-    useRequisitions();
+  const {
+    requisitions,
+    isLoading,
+    error,
+    refreshRequisitions,
+    page,
+    totalPages,
+    setPage,
+  } = useRequisitions();
   const navigate = useNavigate();
   const { user, isLoading: authLoading } = useAuth();
   const [embeddingId, setEmbeddingId] = useState<number | null>(null);
@@ -218,6 +225,34 @@ const PublicHome = () => {
               </div>
             ))}
           </div>
+        </div>
+      )}
+
+      {totalPages > 1 && (
+        <div className="mt-6 flex items-center justify-center gap-3">
+          <button
+            type="button"
+            onClick={() => setPage(Math.max(1, page - 1))}
+            disabled={page === 1}
+            className="text-[#281c59] disabled:cursor-not-allowed disabled:opacity-40"
+            aria-label="Previous page"
+          >
+            <ArrowLeft className="h-4 w-4" />
+          </button>
+
+          <span className="text-[14px] font-semibold text-neutral-600">
+            Page {page} of {totalPages}
+          </span>
+
+          <button
+            type="button"
+            onClick={() => setPage(Math.min(totalPages, page + 1))}
+            disabled={page === totalPages}
+            className="text-[#281c59] disabled:cursor-not-allowed disabled:opacity-40"
+            aria-label="Next page"
+          >
+            <ArrowRight className="h-4 w-4" />
+          </button>
         </div>
       )}
     </div>

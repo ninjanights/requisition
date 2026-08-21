@@ -1,16 +1,29 @@
 import api from "./api";
+
 import type {
-  Requisition,
+  RequisitionPaginatedResponse,
   CreateRequisitionRequest,
   RequisitionDetails,
 } from "../types/requisition";
 
-export const getMyRequisitions = async (): Promise<Requisition[]> => {
-  const response = await api.get<Requisition[]>("/requisitions");
+export const getMyRequisitions = async (
+  page = 1,
+  pageSize = 10,
+  status?: string,
+): Promise<RequisitionPaginatedResponse> => {
+  const response = await api.get<RequisitionPaginatedResponse>(
+    "/requisitions",
+    {
+      params: {
+        page,
+        page_size: pageSize,
+        ...(status && { status }),
+      },
+    },
+  );
 
   return response.data;
 };
-
 /**
  * GET /requisitions/{id}
  */

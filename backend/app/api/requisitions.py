@@ -1,5 +1,5 @@
 from fastapi import APIRouter, Depends, HTTPException, Query, status, Response
-
+from math import ceil
 from sqlalchemy import text
 from sqlalchemy.orm import Session
 from typing import Optional
@@ -15,8 +15,8 @@ from app.db.models import (
 from app.schemas.requisition import (
     RequisitionCreate,
     RequisitionResponse,
-    RequisitionListResponse,
     RequisitionDetailResponse,
+    RequisitionPaginatedResponse,
 )
 from app.services.requisition_import_service import (
     RequisitionImportService,
@@ -65,7 +65,7 @@ def create_requisition(
                 description=item.description,
                 quantity=item.quantity,
                 unit=item.unit or "unit",
-        estimated_rate=item.estimated_rate or 0,
+                estimated_rate=item.estimated_rate or 0,
             )
 
             db.add(requisition_item)
@@ -85,13 +85,22 @@ def create_requisition(
         db.rollback()
         raise
 
-
-#  get list of requisition | GET /api/requisitions
+# now with pagination
+# get list of requisition | GET /api/requisitions
 @router.get(
     "",
-    response_model=list[RequisitionListResponse],
+    response_model=RequisitionPaginatedResponse,
 )
 def get_requisitions(
+page: int = Query(
+        default=1,
+        ge=1,
+    ),
+    page_size: int = Query(
+        default=10,
+        ge=1,
+        le=100,
+    ),
     status_filter: Optional[RequisitionStatus] = Query(
         default=None,
         alias="status",
@@ -99,6 +108,7 @@ def get_requisitions(
     db: Session = Depends(get_db),
     current_user: User = Depends(get_current_user_or_session),
 ):
+    
     query = db.query(Requisition)
 
     # PUBLIC → only their own requisitions
@@ -110,8 +120,32 @@ def get_requisitions(
     if status_filter:
         query = query.filter(Requisition.status == status_filter)
 
-    return query.order_by(Requisition.created_at.desc()).all()
+    
+    # Total number of records after ownership/status filtering
+    total = query.count()
 
+    # Calculate how many records to skip
+    offset = (page - 1) * page_size
+
+    # Fetch only the records required for this page
+    requisitions = (
+        query
+        .order_by(Requisition.created_at.desc())
+        .offset(offset)
+        .limit(page_size)
+        .all()
+    )
+
+    # Calculate total number of pages
+    total_pages = ceil(total / page_size) if total else 0
+
+    return {
+        "items": requisitions,
+        "page": page,
+        "page_size": page_size,
+        "total": total,
+        "total_pages": total_pages,
+    }
 
 # by <id> | calls SQL func. | GET /api/requisitions/{requisition_id}
 # GET /api/requisitions/{requisition_id}
@@ -249,7 +283,7 @@ async def import_requisition(
                 description=item.description,
                 quantity=item.quantity,
                 unit=item.unit or "unit",
-        estimated_rate=item.estimated_rate or 0,
+                estimated_rate=item.estimated_rate or 0,
             )
 
             db.add(requisition_item)
