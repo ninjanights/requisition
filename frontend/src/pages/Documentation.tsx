@@ -57,15 +57,31 @@ const workflowSections: Record<
       },
       {
         lead: "Centralized service logic",
-        body: "so requisition, import, search, SQL generation, and question routing stay separated from API handlers.",
+        body: "so requisition, import, search, SQL generation, and question routing remain separated from API handlers.",
       },
       {
-        lead: "Added session-based authentication",
-        body: "with HTTP-only cookies, hashed passwords, and role-aware protected routes.",
+        lead: "Implemented session-based authentication",
+        body: "using HTTP-only cookies, hashed passwords, and role-aware protected routes.",
       },
       {
         lead: "Validated requests and responses",
         body: "through Pydantic schemas before data reaches the database layer.",
+      },
+      {
+        lead: "Designed the PostgreSQL data layer",
+        body: "using SQLAlchemy and Alembic migrations, including requisitions, requisition items, users, and embedding-related data.",
+      },
+      {
+        lead: "Implemented an embedding and semantic-search pipeline",
+        body: "to convert requisition data into searchable vector representations and support AI-powered retrieval.",
+      },
+      {
+        lead: "Integrated AI services for question answering and reranking",
+        body: "allowing user questions to be routed through retrieval, SQL generation, and relevant context before generating responses.",
+      },
+      {
+        lead: "Added admin-controlled requisition workflows",
+        body: "including status management, approvals, and embedding regeneration when relevant requisition data changes.",
       },
     ],
     stack: "FastAPI • Pydantic • SQLAlchemy • HTTP-only Cookies • Password Hashing",
@@ -79,21 +95,29 @@ const workflowSections: Record<
       },
       {
         lead: "Added reusable layouts and navigation",
-        body: "for public users and admin users with protected route handling.",
+        body: "for public and admin users with protected route handling.",
       },
       {
         lead: "Connected frontend services to the API",
-        body: "for login, requisition management, embedding actions, and question responses.",
+        body: "for authentication, requisition management, embedding actions, and question-answering responses.",
       },
       {
         lead: "Styled the interface with Tailwind CSS",
-        body: "using compact, consistent app-level classes for forms, panels, and buttons.",
+        body: "using consistent app-level classes for forms, panels, tables, buttons, and status indicators.",
+      },
+      {
+        lead: "Implemented reusable components and custom hooks",
+        body: "to manage requisition data, authentication state, loading states, and API interactions across pages.",
+      },
+      {
+        lead: "Added responsive UI states and user feedback",
+        body: "including loading indicators, validation, error handling, empty states, and success/error notifications.",
       },
     ],
     stack: "React • TypeScript • Vite • Tailwind CSS • React Router • Axios",
   },
   retrievals: {
-    title: "Retrievals & Generation Process",
+    title: "Retrieval & Generation Process",
     steps: [
       {
         lead: "Generated requisition embeddings",
@@ -101,15 +125,27 @@ const workflowSections: Record<
       },
       {
         lead: "Used vector search",
-        body: "to retrieve relevant requisitions before answering user questions.",
+        body: "to retrieve relevant requisitions and supporting context before answering user questions.",
+      },
+      {
+        lead: "Applied reranking to retrieved results",
+        body: "improving relevance by prioritizing the most contextually appropriate requisitions.",
       },
       {
         lead: "Routed questions through backend services",
-        body: "to decide when to use SQL, semantic retrieval, or generated answers.",
+        body: "determining whether a question should use SQL, semantic retrieval, or generated responses.",
       },
       {
         lead: "Connected Gemini and Jina services",
-        body: "for extraction, embeddings, retrieval context, and final response generation.",
+        body: "for question understanding, embeddings, reranking, retrieval context, and final response generation.",
+      },
+      {
+        lead: "Grounded AI responses in retrieved data",
+        body: "using relevant requisition context to reduce unsupported or fabricated answers.",
+      },
+      {
+        lead: "Handled embedding regeneration",
+        body: "allowing requisition embeddings to be refreshed when relevant requisition data or status changes.",
       },
     ],
     stack: "Gemini • Jina Embeddings • pgvector • Semantic Search • RAG",
@@ -231,4 +267,7 @@ const Documentation = () => {
 };
 
 export default Documentation;
+
+
+
 

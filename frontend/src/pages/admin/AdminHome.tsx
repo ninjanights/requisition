@@ -146,7 +146,7 @@ const AdminHome = () => {
             {requisitions.map((requisition) => (
               <div
                 key={requisition.id}
-                className="flex h-[52px] items-center text-[14px] font-semibold text-[#120078]"
+                className="flex h-[52px] items-center text-[14px] font-black text-neutral-500"
               >
                 #{requisition.id}
               </div>
@@ -160,7 +160,7 @@ const AdminHome = () => {
                   {columns.map((col) => (
                     <th
                       key={col.key}
-                      className="pb-2 text-left text-[12px] font-bold uppercase text-[#120078]"
+                      className="pb-2 text-left text-[12px] font-black uppercase text-neutral-500"
                     >
                       {col.label}
                     </th>
@@ -252,7 +252,7 @@ const AdminHome = () => {
                   <Eye className="h-5 w-5" />
                 </button>
                 {requisition.is_embedded ? (
-                  <span className="text-[12px] font-bold text-[#120078]">{"<Embedded/>"}</span>
+                  <span className="text-[12px] font-bold text-[var(--app-secondary)]">{"<Embedded/>"}</span>
                 ) : (
                   <button
                     type="button"
@@ -302,6 +302,8 @@ const AdminHome = () => {
 };
 
 export default AdminHome;
+
+
 
 
 
