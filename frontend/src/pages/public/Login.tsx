@@ -121,7 +121,7 @@ const Login = () => {
           </div>
 
           <div className="flex flex-wrap items-center gap-3 text-[11px] font-semibold text-neutral-500">
-            <span>Assignment Proj.</span>
+            <span>Python • TypeScript • PostgreSQL</span>
             <span className="h-4 w-px bg-neutral-500" />
             <a
               href="https://github.com/ninjanights/requisition"
