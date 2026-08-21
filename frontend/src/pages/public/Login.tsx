@@ -72,7 +72,7 @@ const Login = () => {
   }, [authLoading, user, navigate]);
 
   return (
-    <div className="min-h-fit bg-neutral-300 py-[50px] sm:py-[50px]">
+    <div className="min-h-fit bg-neutral-300 py-[60px] sm:py-[60px]">
       <main className="mx-auto grid w-full max-w-5xl grid-cols-1 gap-8 px-5 lg:grid-cols-[1fr_auto_1fr] lg:gap-10">
         <section className="flex flex-col justify-between gap-8 text-neutral-500">
           <div>
@@ -85,7 +85,7 @@ const Login = () => {
               <span className="hidden pt-10 text-[18px] 
               font-black leading-none text-neutral-500 sm:block">·</span>
               <pre className="max-w-full overflow-x-auto text-left font-mono text-[9px] font-semibold leading-4 text-neutral-500">
-{`const mockRequisition = {
+{`const spaceXRequisition = {
   data: {
     createdDate: "2026-08-16T15:30:40.811204Z",
     department: "Propulsion",
