@@ -24,7 +24,7 @@ const Ask = () => {
         <MessageSquareCode
           className="
             h-4 w-4 shrink-0
-            stroke-[#5B5656]
+            stroke-[#574964]
           "
         />
 
@@ -62,7 +62,7 @@ const Ask = () => {
         <Upload
           className="
             h-4 w-4 shrink-0
-            stroke-[#5B5656]
+            stroke-[#574964]
           "
         />
 

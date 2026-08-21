@@ -134,7 +134,7 @@ const Documentation = () => {
 
       <div className="flex flex-col items-center sm:flex-row sm:items-start sm:justify-center sm:divide-x sm:divide-neutral-500">
         <div className="py-2 sm:px-5 sm:py-0">
-          <h3 className="mb-1 text-[14px] font-bold text-[#5B5656]">Backend</h3>
+          <h3 className="mb-1 text-[14px] font-bold text-[#574964]">Backend</h3>
           <ul className="space-y-0.5">
             <li className={itemClass}>Python</li>
             <li className={itemClass}>FastAPI</li>
@@ -146,7 +146,7 @@ const Documentation = () => {
           </ul>
         </div>
         <div className="py-2 sm:px-5 sm:py-0">
-          <h3 className="mb-1 text-[14px] font-bold text-[#5B5656]">Frontend</h3>
+          <h3 className="mb-1 text-[14px] font-bold text-[#574964]">Frontend</h3>
           <ul className="space-y-0.5">
             <li className={itemClass}>React</li>
             <li className={itemClass}>TypeScript</li>
@@ -158,7 +158,7 @@ const Documentation = () => {
         </div>
 
         <div className="py-2 sm:px-5 sm:py-0">
-          <h3 className="mb-1 text-[14px] font-bold text-[#5B5656]">Authentication</h3>
+          <h3 className="mb-1 text-[14px] font-bold text-[#574964]">Authentication</h3>
           <ul className="space-y-0.5">
             <li className={itemClass}>Session-based authentication</li>
             <li className={itemClass}>HTTP-only cookies</li>
@@ -168,7 +168,7 @@ const Documentation = () => {
         </div>
 
         <div className="py-2 sm:px-5 sm:py-0">
-          <h3 className="mb-1 text-[14px] font-bold text-[#5B5656]">AI</h3>
+          <h3 className="mb-1 text-[14px] font-bold text-[#574964]">AI</h3>
           <ul className="space-y-0.5">
             <li className={itemClass}>Google Gemini : requisition extraction + question answering</li>
             <li className={itemClass}>Jina Embeddings</li>
@@ -177,7 +177,7 @@ const Documentation = () => {
           </ul>
         </div>
         <div className="py-2 sm:px-5 sm:py-0">
-          <h3 className="mb-1 text-[14px] font-bold text-[#5B5656]">We're live with</h3>
+          <h3 className="mb-1 text-[14px] font-bold text-[#574964]">We're live with</h3>
           <ul className="space-y-0.5">
             <li className={itemClass}>Backend : Render</li>
             <li className={itemClass}>Frontend : Vercel</li>
@@ -197,7 +197,7 @@ const Documentation = () => {
                 onClick={() => setActiveWorkflow(tab.key)}
                 className={`px-3 py-1 text-[11px] font-extrabold transition-colors ${
                   activeWorkflow === tab.key
-                    ? "text-[#5B5656]"
+                    ? "text-[#574964]"
                     : "text-neutral-500 hover:text-neutral-800"
                 }`}
               >
@@ -211,7 +211,7 @@ const Documentation = () => {
         </div>
 
         <div className="mx-auto mt-5 max-w-5xl text-neutral-500">
-          <h3 className="mb-3 text-[15px] font-extrabold text-[#5B5656]">{workflow.title}</h3>
+          <h3 className="mb-3 text-[15px] font-extrabold text-[#574964]">{workflow.title}</h3>
           <ol className="list-decimal gap-x-8 space-y-1.5 pl-5 text-[11px] font-semibold leading-4 sm:columns-2">
             {workflow.steps.map((step) => (
               <li key={step.lead}>
@@ -222,7 +222,7 @@ const Documentation = () => {
             ))}
           </ol>
 
-          <h4 className="mt-4 text-[12px] font-extrabold text-[#5B5656]">Stack</h4>
+          <h4 className="mt-4 text-[12px] font-extrabold text-[#574964]">Stack</h4>
           <p className="mt-1 text-[11px] font-semibold leading-4">{workflow.stack}</p>
         </div>
       </section>

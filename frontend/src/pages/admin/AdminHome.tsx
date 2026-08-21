@@ -37,9 +37,9 @@ const AdminHome = () => {
   const getStatusDotClass = (status: Requisition["status"]) => {
     switch (status) {
       case "Draft":
-        return "bg-[#EEB0B0]";
+        return "bg-[#D8C9A7]";
       case "Submitted":
-        return "bg-[#92BA92]";
+        return "bg-[#9F8383]";
       case "Approved":
         return "bg-blue-300";
       case "Rejected":
@@ -146,7 +146,7 @@ const AdminHome = () => {
             {requisitions.map((requisition) => (
               <div
                 key={requisition.id}
-                className="flex h-[52px] items-center text-[14px] font-semibold text-[#5B5656]"
+                className="flex h-[52px] items-center text-[14px] font-semibold text-[#574964]"
               >
                 #{requisition.id}
               </div>
@@ -160,7 +160,7 @@ const AdminHome = () => {
                   {columns.map((col) => (
                     <th
                       key={col.key}
-                      className="pb-2 text-left text-[12px] font-bold uppercase text-[#5B5656]"
+                      className="pb-2 text-left text-[12px] font-bold uppercase text-[#574964]"
                     >
                       {col.label}
                     </th>
@@ -245,20 +245,20 @@ const AdminHome = () => {
                 <button
                   type="button"
                   onClick={() => navigate(`/requisitions/${requisition.id}`)}
-                  className="rounded-md p-2 text-[#5B5656] transition hover:bg-neutral-200"
+                  className="rounded-md p-2 text-[#574964] transition hover:bg-neutral-200"
                   title="View requisition"
                   aria-label={`View ${requisition.requisition_no}`}
                 >
                   <Eye className="h-5 w-5" />
                 </button>
                 {requisition.is_embedded ? (
-                  <span className="text-[12px] font-bold text-[#5B5656]">{"<Embedded/>"}</span>
+                  <span className="text-[12px] font-bold text-[#574964]">{"<Embedded/>"}</span>
                 ) : (
                   <button
                     type="button"
                     onClick={() => handleEmbed(requisition.id)}
                     disabled={embeddingId === requisition.id}
-                    className="text-[12px] font-bold text-neutral-500 transition hover:text-[#5B5656] disabled:cursor-wait disabled:opacity-50"
+                    className="text-[12px] font-bold text-neutral-500 transition hover:text-[#574964] disabled:cursor-wait disabled:opacity-50"
                   >
                     {embeddingId === requisition.id ? "Embedding..." : "Not Embedded"}
                   </button>
@@ -276,7 +276,7 @@ const AdminHome = () => {
             type="button"
             onClick={() => setPage(Math.max(1, page - 1))}
             disabled={page === 1}
-            className="text-[#5B5656] disabled:cursor-not-allowed disabled:opacity-40"
+            className="text-[#574964] disabled:cursor-not-allowed disabled:opacity-40"
             aria-label="Previous page"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -290,7 +290,7 @@ const AdminHome = () => {
             type="button"
             onClick={() => setPage(Math.min(totalPages, page + 1))}
             disabled={page === totalPages}
-            className="text-[#5B5656] disabled:cursor-not-allowed disabled:opacity-40"
+            className="text-[#574964] disabled:cursor-not-allowed disabled:opacity-40"
             aria-label="Next page"
           >
             <ArrowRight className="h-4 w-4" />

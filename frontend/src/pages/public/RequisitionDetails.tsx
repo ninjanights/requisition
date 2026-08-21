@@ -85,7 +85,7 @@ const RequisitionDetails = () => {
           </h1>
         </div>
 
-        <span className="rounded-full bg-neutral-100 px-4 py-2 text-[12px] font-bold uppercase text-[#5B5656]">
+        <span className="rounded-full bg-neutral-100 px-4 py-2 text-[12px] font-bold uppercase text-[#574964]">
           {requisition.status}
         </span>
 
@@ -246,7 +246,7 @@ const RequisitionDetails = () => {
                   Grand Total
                 </td>
 
-                <td className="px-4 py-5 text-right text-[14px] font-bold text-[#5B5656]">
+                <td className="px-4 py-5 text-right text-[14px] font-bold text-[#574964]">
                   ₹{grandTotal.toLocaleString("en-IN")}
                 </td>
 
