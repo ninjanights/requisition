@@ -9,7 +9,7 @@ import { useAuth } from "../../context/AuthContext";
 
 const navLinkClass = ({ isActive }: { isActive: boolean }) =>
   `text-[12px] font-bold transition ${
-    isActive ? "text-[#281c59]" : "text-neutral-500 hover:text-[#281c59]"
+    isActive ? "text-[#635666]" : "text-neutral-500 hover:text-[#635666]"
   }`;
 
 const PublicNavbar = () => {

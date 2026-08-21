@@ -22,15 +22,30 @@ const AdminHome = () => {
   const getStatusTextClass = (status: Requisition["status"]) => {
     switch (status) {
       case "Draft":
-        return "text-orange-600";
+        return "text-neutral-700";
       case "Submitted":
-        return "text-cyan-700";
+        return "text-neutral-700";
       case "Approved":
-        return "text-emerald-700";
+        return "text-neutral-700";
       case "Rejected":
-        return "text-rose-700";
+        return "text-neutral-700";
       default:
         return "text-neutral-700";
+    }
+  };
+
+  const getStatusDotClass = (status: Requisition["status"]) => {
+    switch (status) {
+      case "Draft":
+        return "bg-yellow-300";
+      case "Submitted":
+        return "bg-emerald-300";
+      case "Approved":
+        return "bg-blue-300";
+      case "Rejected":
+        return "bg-rose-300";
+      default:
+        return "bg-neutral-400";
     }
   };
   const columns: {
@@ -131,7 +146,7 @@ const AdminHome = () => {
             {requisitions.map((requisition) => (
               <div
                 key={requisition.id}
-                className="flex h-[52px] items-center text-[14px] font-semibold text-[#281c59]"
+                className="flex h-[52px] items-center text-[14px] font-semibold text-[#635666]"
               >
                 #{requisition.id}
               </div>
@@ -145,7 +160,7 @@ const AdminHome = () => {
                   {columns.map((col) => (
                     <th
                       key={col.key}
-                      className="pb-2 text-left text-[12px] font-bold uppercase text-[#281c59]"
+                      className="pb-2 text-left text-[12px] font-bold uppercase text-[#635666]"
                     >
                       {col.label}
                     </th>
@@ -175,17 +190,27 @@ const AdminHome = () => {
                           return (
                             <td key={col.key} className={`h-[52px] px-4 py-3 ${borderClasses}`}>
                               {requisition.status === "Submitted" ? (
-                                <span className={`text-[14px] font-semibold ${getStatusTextClass(requisition.status)}`}>
-                                  {requisition.status}
+                                <span className="flex items-center gap-2 text-[14px] font-semibold">
+                                  <span
+                                    className={`h-2.5 w-2.5 rounded-full ${getStatusDotClass(requisition.status)}`}
+                                  />
+                                  <span className={getStatusTextClass(requisition.status)}>
+                                    {requisition.status}
+                                  </span>
                                 </span>
                               ) : (
                                 <button
                                   type="button"
                                   onClick={() => handleSubmit(requisition.id)}
                                   disabled={submittingId === requisition.id}
-                                  className={`text-[14px] font-semibold ${getStatusTextClass(requisition.status)} disabled:cursor-wait disabled:opacity-50`}
+                                  className="flex items-center gap-2 text-[14px] font-semibold disabled:cursor-wait disabled:opacity-50"
                                 >
-                                  {submittingId === requisition.id ? "Submitting..." : requisition.status}
+                                  <span
+                                    className={`h-2.5 w-2.5 rounded-full ${getStatusDotClass(requisition.status)}`}
+                                  />
+                                  <span className={getStatusTextClass(requisition.status)}>
+                                    {submittingId === requisition.id ? "Submitting..." : requisition.status}
+                                  </span>
                                 </button>
                               )}
                             </td>
@@ -220,20 +245,20 @@ const AdminHome = () => {
                 <button
                   type="button"
                   onClick={() => navigate(`/requisitions/${requisition.id}`)}
-                  className="rounded-md p-2 text-[#281c59] transition hover:bg-neutral-200"
+                  className="rounded-md p-2 text-[#635666] transition hover:bg-neutral-200"
                   title="View requisition"
                   aria-label={`View ${requisition.requisition_no}`}
                 >
                   <Eye className="h-5 w-5" />
                 </button>
                 {requisition.is_embedded ? (
-                  <span className="text-[12px] font-bold text-pink-400">{"<Embedded/>"}</span>
+                  <span className="text-[12px] font-bold text-[#635666]">{"<Embedded/>"}</span>
                 ) : (
                   <button
                     type="button"
                     onClick={() => handleEmbed(requisition.id)}
                     disabled={embeddingId === requisition.id}
-                    className="text-[12px] font-bold text-neutral-500 transition hover:text-[#281c59] disabled:cursor-wait disabled:opacity-50"
+                    className="text-[12px] font-bold text-neutral-500 transition hover:text-[#635666] disabled:cursor-wait disabled:opacity-50"
                   >
                     {embeddingId === requisition.id ? "Embedding..." : "Not Embedded"}
                   </button>
@@ -251,7 +276,7 @@ const AdminHome = () => {
             type="button"
             onClick={() => setPage(Math.max(1, page - 1))}
             disabled={page === 1}
-            className="text-[#281c59] disabled:cursor-not-allowed disabled:opacity-40"
+            className="text-[#635666] disabled:cursor-not-allowed disabled:opacity-40"
             aria-label="Previous page"
           >
             <ArrowLeft className="h-4 w-4" />
@@ -265,7 +290,7 @@ const AdminHome = () => {
             type="button"
             onClick={() => setPage(Math.min(totalPages, page + 1))}
             disabled={page === totalPages}
-            className="text-[#281c59] disabled:cursor-not-allowed disabled:opacity-40"
+            className="text-[#635666] disabled:cursor-not-allowed disabled:opacity-40"
             aria-label="Next page"
           >
             <ArrowRight className="h-4 w-4" />
